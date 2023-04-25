@@ -3,6 +3,8 @@
 *.ipynb
 *.csv
 *.npy
+*.txt
+*.icloud
 .DS_Store
 
 #Excluded folders 
