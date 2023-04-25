@@ -1,0 +1,4 @@
+name: great_barrier_reef_environment
+channels:
+  - defaults
+prefix: /Applications/anaconda3/envs/great_barrier_reef_environment

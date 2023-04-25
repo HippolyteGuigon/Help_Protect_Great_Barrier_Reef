@@ -1,3 +1,14 @@
+#Excluded files
+
+*.ipynb
+*.csv
+*.npy
+
+#Excluded folders 
+
+train_images/*
+greatbarrierreef/*
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
