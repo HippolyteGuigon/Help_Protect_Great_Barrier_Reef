@@ -3,6 +3,7 @@
 *.ipynb
 *.csv
 *.npy
+.DS_Store
 
 #Excluded folders 
 
