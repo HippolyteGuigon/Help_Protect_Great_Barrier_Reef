@@ -22,8 +22,8 @@ The all project was coded under PEP-8 (https://peps.python.org/pep-0008/) and fl
 
 ## Screenshot 
 
-![alt text](https://github.com/HippolyteGuigon/Hispatologic_Cancer_Detection/blob/master/ressources/metastatic-breast-cancer.jpeg)
+![alt text](https://github.com/HippolyteGuigon/Help_Protect_Great_Barrier_Reef/blob/main/ressources/video_thumb_kaggle.png)
 
-Image of metastatic breast cancer cell.
+Image of startfish localised on the great barrier
 
 ## How to use ? 
