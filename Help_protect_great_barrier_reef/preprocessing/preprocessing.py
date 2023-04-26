@@ -40,6 +40,8 @@ class preprocessing_yolo:
 
     def __init__(self, df: pd.DataFrame)->None:
         self.df=df
+        self.df["annotations"]=self.df["annotations"].apply(lambda x: list() if x=="[]" else ast.literal_eval(x))
+        self.df["annotations"]=self.df["annotations"]+self.df["image_id"].apply(lambda x: [x])
 
     def convert_coordinates(self, list_dict: List[dict])->List[dict]:
         """
@@ -56,8 +58,16 @@ class preprocessing_yolo:
             after it was properly converted
         """
 
+        image_id=list_dict[-1].split("-")
+        image_path=os.path.join("train_images", "video_"+image_id[0], image_id[1]+".jpg")
+
         # Transform the bbox co-ordinates as per the format required by YOLO v5
-        
+
+        if len(list_dict)==1:
+            return [{"image_path": image_path}]
+
+        list_dict.remove(list_dict[-1])
+
         for i, dict_coordinates in enumerate(list_dict):
             dict_coordinates["x"] += dict_coordinates["width"]/2
             dict_coordinates["y"] += dict_coordinates["height"]/2
@@ -65,7 +75,7 @@ class preprocessing_yolo:
             dict_coordinates["y"] /= image_height
             dict_coordinates["width"] /= image_width
             dict_coordinates["height"] /= image_height
-            dict_coordinates={**{"class": 0}, **dict_coordinates}
+            dict_coordinates={**{"image_path": image_path},**{"class": 0}, **dict_coordinates}
             list_dict[i]=dict_coordinates
 
         return list_dict
@@ -85,6 +95,19 @@ class preprocessing_yolo:
 
         logging.info("Conveting annotations in yolo format...")
 
-        self.df["annotations"]=self.df["annotations"].progress_apply(lambda x: 
-                            list() if x=="[]" else self.convert_coordinates(ast.literal_eval(x)))
-      
+        self.df["annotations"]=self.df["annotations"].progress_apply(lambda x: self.convert_coordinates(x))
+    
+    def saving_result(self)->None:
+        """
+        The goal of this function
+        is saving the results under
+        txt files readable by the Yolo
+        model
+        
+        Arguments:
+            -None
+        Returns:
+            -None
+        """
+
+        pass
