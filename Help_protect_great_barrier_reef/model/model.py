@@ -11,5 +11,4 @@ from tqdm import tqdm
 from PIL import Image, ImageDraw
 from IPython.display import Image  # for displaying images
 
-
 random.seed(108)
