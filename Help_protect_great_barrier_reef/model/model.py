@@ -16,8 +16,18 @@ from Help_protect_great_barrier_reef.logs.logs import main
 main()
 
 class yolo_model:
-
-    def __init__(self):
+    """
+    The goal of this class is
+    to have a pipeline to train  
+    the yolo model 
+    
+    Arguments:
+        -None 
+    Returns:
+        -None
+    """
+    
+    def __init__(self)->None:
         self.df=pd.read_csv("train.csv")
         preprocess=preprocessing_yolo(self.df)
         preprocess.full_conversion()
@@ -35,6 +45,7 @@ class yolo_model:
         Returns:
             -None
         """
+        
         annotations = glob.glob('train_images/*/*.txt')
         images = glob.glob("train_images/*/*.jpg")
 
@@ -48,6 +59,17 @@ class yolo_model:
         train_test_split(self.val_images, self.val_annotations, test_size=0.5)
 
     def split_files(self)->None:
+        """
+        The goal of this function
+        is to allocate the files 
+        between the different sets
+        
+        Arguments:
+            -None
+        Returns:
+            -None
+        """
+        
         if not all([hasattr(self, attr) for attr in ["train_images",
         "val_images","train_annotations","val_annotations", "test_annotations"]]):
             raise AssertionError("Definition of split sets was not done,\
