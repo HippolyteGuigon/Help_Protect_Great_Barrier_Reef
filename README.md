@@ -22,7 +22,7 @@ The all project was coded under PEP-8 (https://peps.python.org/pep-0008/) and fl
 
 ## Screenshot 
 
-![alt text](https://github.com/HippolyteGuigon/Help_Protect_Great_Barrier_Reef/blob/main/ressources/video_thumb_kaggle.png)
+![alt text](https://github.com/HippolyteGuigon/Help_Protect_Great_Barrier_Reef/blob/features_building_yolo_pipeline/ressources/video_thumb_kaggle.png)
 
 Image of startfish localised on the great barrier
 

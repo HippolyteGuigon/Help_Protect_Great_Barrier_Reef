@@ -11,6 +11,11 @@
 
 train_images/*
 greatbarrierreef/*
+ressources/*
+train_set/*
+test_set/*
+valid_set/* 
+
 
 #At the exception of these files
 
