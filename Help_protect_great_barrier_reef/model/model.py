@@ -10,22 +10,42 @@ from sklearn.model_selection import train_test_split
 from tqdm import tqdm
 from Help_protect_great_barrier_reef.preprocessing.preprocessing import preprocessing_yolo, clean_all_files
 
-df=pd.read_csv("train.csv")
+class yolo_model:
 
-preprocess=preprocessing_yolo(df)
-preprocess.full_conversion()
-preprocess.saving_result()
+    def __init__(self):
+        self.df=pd.read_csv("train.csv")
+        preprocess=preprocessing_yolo(df)
+        preprocess.full_conversion()
+        preprocess.saving_result()
 
-annotations = glob.glob('train_images/*/*.txt')
-images = glob.glob("train_images/*/*.jpg")
+    def get_split(self)->None:
+        """
+        The goal of this function
+        is to get the different sets 
+        for the training of the yolo
+        model
+        
+        Arguments: 
+            -None
+        Returns:
+            -None
+        """
+        annotations = glob.glob('train_images/*/*.txt')
+        images = glob.glob("train_images/*/*.jpg")
 
-annotations.sort()
-images.sort()
+        annotations.sort()
+        images.sort()
 
-train_images, val_images, train_annotations, val_annotations = \
-train_test_split(images, annotations, test_size=0.2, random_state=42)
+        self.train_images, self.val_images, self.train_annotations, self.val_annotations = \
+        train_test_split(images, annotations, test_size=0.2, random_state=42)
 
-val_images, test_images, val_annotations, test_annotations =\
-train_test_split(val_images, val_annotations, test_size=0.5, random_state=42)
+        self.val_images, self.test_images, self.val_annotations, self.test_annotations =\
+        train_test_split(self.val_images, self.val_annotations, test_size=0.5, random_state=42)
 
-print(val_images)
+    def split_files(self)->None:
+        if not all([hasattr(self, attr) for attr in ["train_images",
+        "val_images","train_annotations","val_annotations", "test_annotations"]]):
+            raise AssertionError("Definition of split sets was not done,\
+                                 please call the get_split method")
+        
+        pass        
