@@ -37,12 +37,14 @@ def visualise(path: str)->Image:
     if annotation=="[]":
         pass
     else:
-        image_annotation=ast.literal_eval(annotation)[0]
-        x0, y0, x1, y1 = image_annotation["x"], image_annotation["y"],\
-         image_annotation["x"]+image_annotation["width"],\
-              image_annotation["y"]+image_annotation["height"]
-        draw = ImageDraw.Draw(image)
-        draw.rectangle((x0, y0, x1, y1), outline="red", width=3)
+        image_annotation=ast.literal_eval(annotation)
+        
+        for dict_coordinate in image_annotation:
+            x0, y0, x1, y1 = dict_coordinate["x"], dict_coordinate["y"],\
+            dict_coordinate["x"]+dict_coordinate["width"],\
+                dict_coordinate["y"]+ dict_coordinate["height"]
+            draw = ImageDraw.Draw(image)
+            draw.rectangle((x0, y0, x1, y1), outline="red", width=3)
 
     image.show()
 
