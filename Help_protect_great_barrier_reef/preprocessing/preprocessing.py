@@ -2,6 +2,7 @@ import pandas as pd
 import ast 
 import os
 import logging
+import glob
 from typing import List
 from PIL import Image
 from Help_protect_great_barrier_reef.configs.confs import load_conf, clean_params, Loader
@@ -122,9 +123,18 @@ class preprocessing_yolo:
                 continue
             print("\n".join(elements), file= open(path_save, "w"))
 
-def clean_all_files():
-    for file in os.listdir("train_images"):
-        if file != ".DS_Store":
-            for subfile in os.listdir(os.path.join("train_images",file)):
-                if ".txt" in subfile:
-                    os.remove(os.path.join("train_images", file, subfile))
+def clean_all_files()->None:
+    """
+    The goal of this funcion 
+    is to remove all txt annotation
+    files
+    
+    Arguments:
+        -None
+    Returns:
+        -None
+    """
+    to_delete=glob.glob("train_images/*/*.txt")
+    for file_path in to_delete:
+        os.remove(file_path)
+    
