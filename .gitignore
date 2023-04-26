@@ -15,7 +15,6 @@ greatbarrierreef/*
 #At the exception of these files
 
 !requirements.txt
-!.video_thumb_kaggle.png.icloud
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
