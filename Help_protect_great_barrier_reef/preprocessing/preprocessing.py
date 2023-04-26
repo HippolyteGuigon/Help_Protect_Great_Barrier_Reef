@@ -64,7 +64,7 @@ class preprocessing_yolo:
         # Transform the bbox co-ordinates as per the format required by YOLO v5
 
         if len(list_dict)==1:
-            return [{"image_path": image_path}]
+            return [image_path]
 
         list_dict.remove(list_dict[-1])
 
@@ -75,8 +75,10 @@ class preprocessing_yolo:
             dict_coordinates["y"] /= image_height
             dict_coordinates["width"] /= image_width
             dict_coordinates["height"] /= image_height
-            dict_coordinates={**{"image_path": image_path},**{"class": 0}, **dict_coordinates}
-            list_dict[i]=dict_coordinates
+            dict_coordinates={**{"class": 0}, **dict_coordinates}
+            list_dict[i]="{} {:.3f} {:.3f} {:.3f} {:.3f}".format(0, dict_coordinates["x"], dict_coordinates["y"], dict_coordinates["width"], dict_coordinates["height"])
+            
+        list_dict.append(image_path)
 
         return list_dict
 
@@ -109,5 +111,20 @@ class preprocessing_yolo:
         Returns:
             -None
         """
+        
+        logging.info("Saving results under Yolo format...")
+        
+        for elements in self.df["annotations"]:
+            path_save=elements[-1].replace(".jpg",".txt")
+            elements.pop(-1)
 
-        pass
+            if os.path.exists(path_save):
+                continue
+            print("\n".join(elements), file= open(path_save, "w"))
+
+def clean_all_files():
+    for file in os.listdir("train_images"):
+        if file != ".DS_Store":
+            for subfile in os.listdir(os.path.join("train_images",file)):
+                if ".txt" in subfile:
+                    os.remove(os.path.join("train_images", file, subfile))
