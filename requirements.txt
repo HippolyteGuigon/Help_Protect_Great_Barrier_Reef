@@ -1,2 +1,4 @@
 pandas==2.0.0
 Pillow==9.5.0
+setuptools==65.6.3
+torch==2.0.0
