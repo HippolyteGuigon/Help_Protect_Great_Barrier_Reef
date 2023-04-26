@@ -68,6 +68,10 @@ class yolo_model:
             shutil.copy(test_image_path, "test_set")
             shutil.copy(valid_image_path, "valid_set")
 
+            shutil.copy(train_image_path.replace(".jpg", ".txt"), "train_set")
+            shutil.copy(test_image_path.replace(".jpg", ".txt"), "test_set")
+            shutil.copy(valid_image_path.replace(".jpg", ".txt"), "valid_set")
+
 if __name__ == '__main__':
     test=yolo_model()
     test.get_split()
