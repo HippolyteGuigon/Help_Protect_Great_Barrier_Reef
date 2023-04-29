@@ -10,6 +10,7 @@ def main() -> None:
     The goal of this function is to have the logs being
     written at the root when the algorithm is launched.
     The logs are saved under the path KMeans/logs/logs.log
+
     Arguments:
         None
     Returns:
@@ -30,3 +31,4 @@ def main() -> None:
 
     logger.addHandler(file_handler)
     logger.addHandler(stdout_handler)
+    logger.propagate = False

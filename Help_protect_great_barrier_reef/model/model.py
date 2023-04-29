@@ -12,8 +12,12 @@ from tqdm import tqdm
 from tqdm.contrib import tzip
 from Help_protect_great_barrier_reef.preprocessing.preprocessing import preprocessing_yolo, clean_all_files
 from Help_protect_great_barrier_reef.logs.logs import main
+from Help_protect_great_barrier_reef.configs.confs import load_conf, clean_params, Loader
 
-main()
+main_params = load_conf("configs/main.yml", include=True)
+main_params = clean_params(main_params)
+split_path = main_params["split_path"]
+train_file_path = main_params["train_file_path"]
 
 class yolo_model:
     """
@@ -54,7 +58,7 @@ class yolo_model:
 
         self.train_images, self.val_images, self.train_annotations, self.val_annotations = \
         train_test_split(images, annotations, test_size=0.2)
-
+        
         self.val_images, self.test_images, self.val_annotations, self.test_annotations =\
         train_test_split(self.val_images, self.val_annotations, test_size=0.5)
 
@@ -76,25 +80,49 @@ class yolo_model:
                                  please call the get_split method")
         
         for path_set in ["train_set", "test_set", "valid_set"]:
-            if not os.path.exists(path_set):
-                os.mkdir(path_set)
+            full_path=os.path.join(split_path,path_set)
+            if not os.path.exists(full_path):
+                os.mkdir(full_path)
             else:
-                shutil.rmtree(path_set)
-                os.mkdir(path_set)     
+                shutil.rmtree(full_path)
+                os.mkdir(full_path)     
 
         logging.info("Splitting the files between the different sets...")
 
-        for train_image_path, test_image_path, valid_image_path\
-              in tzip(self.train_images, self.test_images, self.val_images):
-            shutil.copy(train_image_path, "train_set")
-            shutil.copy(test_image_path, "test_set")
-            shutil.copy(valid_image_path, "valid_set")
+        for train_image_path in self.train_images:
+            shutil.copy(train_image_path, os.path.join(split_path,"train_set"))
+            shutil.copy(train_image_path.replace(".jpg", ".txt"),  os.path.join(split_path,"train_set"))
+        
+        for test_image_path in self.test_images:
+            shutil.copy(test_image_path, os.path.join(split_path,"test_set"))
+            shutil.copy(test_image_path.replace(".jpg", ".txt"),  os.path.join(split_path,"test_set"))
+        
+        for valid_image_path in self.val_images:
+            shutil.copy(valid_image_path, os.path.join(split_path,"valid_set"))
+            shutil.copy(valid_image_path.replace(".jpg", ".txt"),  os.path.join(split_path,"valid_set"))
+        
+        logging.info("Split done !")
 
-            shutil.copy(train_image_path.replace(".jpg", ".txt"), "train_set")
-            shutil.copy(test_image_path.replace(".jpg", ".txt"), "test_set")
-            shutil.copy(valid_image_path.replace(".jpg", ".txt"), "valid_set")
+    def fit(self)->None:
+        """
+        The goal of this
+        function is to launch
+        the fitting of the Yolo
+        model
+        
+        Arguments:
+            -None
+        
+        Returns:
+            -None
+        """
+        
+        logging.warning("Fitting of the model has begun")
+        os.system("python3 "+train_file_path)
+        logging.warning("Fitting of the model has ended")
 
 if __name__ == '__main__':
     test=yolo_model()
     test.get_split()
     test.split_files() 
+    test.fit()
