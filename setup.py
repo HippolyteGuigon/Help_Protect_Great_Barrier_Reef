@@ -4,7 +4,7 @@ setup(
     name="Help_protect_great_barrier_reef",
     version="0.1.0",
     packages=find_packages(
-        include=["Help_protect_great_barrier_reef", "Help_protect_great_barrier_reef.*"]
+        include=["Help_protect_great_barrier_reef", "Help_protect_great_barrier_reef.*", "greatbarrierreef", "greatbarrierreef.*"]
     ),
     description="Python programm for the Kaggle competition\
         Help protect the great barrier reef",
