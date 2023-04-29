@@ -89,17 +89,42 @@ class yolo_model:
 
         logging.info("Splitting the files between the different sets...")
 
-        for train_image_path in self.train_images:
-            shutil.copy(train_image_path, os.path.join(split_path,"train_set"))
-            shutil.copy(train_image_path.replace(".jpg", ".txt"),  os.path.join(split_path,"train_set"))
-        
-        for test_image_path in self.test_images:
+        logging.info("Allocating test set image...")
+        for test_image_path in tqdm(self.test_images):
+            video_name=test_image_path.split("/")[1]
+            image_name=test_image_path.split("/")[2]
             shutil.copy(test_image_path, os.path.join(split_path,"test_set"))
-            shutil.copy(test_image_path.replace(".jpg", ".txt"),  os.path.join(split_path,"test_set"))
-        
-        for valid_image_path in self.val_images:
-            shutil.copy(valid_image_path, os.path.join(split_path,"valid_set"))
-            shutil.copy(valid_image_path.replace(".jpg", ".txt"),  os.path.join(split_path,"valid_set"))
+            shutil.copy(test_image_path.replace(".jpg", ".txt"),  
+                        os.path.join(split_path,"test_set"))
+            os.rename(os.path.join(split_path,"test_set",image_name),
+                      os.path.join(split_path,"test_set",video_name+"_"+image_name))
+            os.rename(os.path.join(split_path,"test_set",
+                                   image_name.replace(".jpg", ".txt")),os.path.join(split_path,"test_set",video_name+"_"+image_name.replace(".jpg", ".txt")))
+                
+        logging.info("Allocating validation set image...")
+        for valid_image_path in tqdm(self.val_images):
+            video_name=valid_image_path.split("/")[1]
+            image_name=valid_image_path.split("/")[2]
+            shutil.copy(valid_image_path,
+                        os.path.join(split_path,"valid_set"))
+            shutil.copy(valid_image_path.replace(".jpg", ".txt"),
+                        os.path.join(split_path,"valid_set"))
+            os.rename(os.path.join(split_path,
+                                   "valid_set",image_name),os.path.join(split_path,"valid_set",video_name+"_"+image_name))
+            os.rename(os.path.join(split_path,
+                                   "valid_set",image_name.replace(".jpg", ".txt")),os.path.join(split_path,"valid_set",video_name+"_"+image_name.replace(".jpg", ".txt")))
+
+        logging.info("Allocating train set image...")
+        for train_image_path in tqdm(self.train_images):
+            video_name=train_image_path.split("/")[1]
+            image_name=train_image_path.split("/")[2]
+            shutil.copy(train_image_path, os.path.join(split_path,"train_set"))
+            shutil.copy(train_image_path.replace(".jpg", ".txt"),  
+                        os.path.join(split_path,"train_set"))
+            os.rename(os.path.join(split_path,"train_set",
+                                   image_name),os.path.join(split_path,"train_set",video_name+"_"+image_name))
+            os.rename(os.path.join(split_path,"train_set",
+                                   image_name.replace(".jpg", ".txt")),os.path.join(split_path,"train_set",video_name+"_"+image_name.replace(".jpg", ".txt")))
         
         logging.info("Split done !")
 
