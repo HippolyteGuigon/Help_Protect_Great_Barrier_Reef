@@ -1,1 +1,2 @@
 train_file_path: Help_protect_great_barrier_reef/model/yolov5_ws/yolov5/train.py
+fitted_model_path: Help_protect_great_barrier_reef/model/yolov5_ws/yolov5/runs/train/exp21/weights/best.pt
