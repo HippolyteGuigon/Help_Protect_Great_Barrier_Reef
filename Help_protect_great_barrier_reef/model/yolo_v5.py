@@ -9,6 +9,8 @@ import glob
 import logging
 from sklearn.model_selection import train_test_split
 from tqdm import tqdm
+from PIL import Image
+from typing import List
 from Help_protect_great_barrier_reef.preprocessing.preprocessing import preprocessing_yolo, clean_all_files
 from Help_protect_great_barrier_reef.logs.logs import main
 from Help_protect_great_barrier_reef.configs.confs import load_conf, clean_params, Loader
@@ -124,7 +126,29 @@ class yolo_model:
         os.system("python3 "+train_file_path)
         logging.warning("Fitting of the model has ended")
 
-    def predict(self, image_path: str)->torch:
+    def model_loading(self)->None:
+        """
+        The goal of this function is to
+        load the model 
+        
+        Arguments:
+            -None
+            
+        Returns:
+            -None
+        """
+
+        if not os.path.exists(fitted_model_path):
+            raise ValueError("The model needs to be fitted before predicting")
+
+        model = torch.hub.load(
+                "ultralytics/yolov5", "custom", fitted_model_path
+                )
+        
+        self.model=model
+
+
+    def predict(self, image_path: str)->List[dict]:
         """
         The goal of this function is
         to predict if objects are detected
@@ -135,13 +159,31 @@ class yolo_model:
             image to be predicted
             
         Returns:
-            -prediction: torch: The prediction for
+            -prediction: List[dict]: The prediction for
             a given image
         """
-        
-        model=torch.load(fitted_model_path)
 
-        return model
+        if not os.path.exists(fitted_model_path):
+            raise ValueError("The model needs to be fitted before predicting")
+        
+        if not hasattr(self,"model"):
+            self.model_loading()
+        
+        image=Image.open(image_path)
+
+        results=self.model(image)
+        results=results.pandas().xyxy[0]
+
+        predictions=[]
+
+        if results.shape[0]==0:
+            return dict()
+        else:
+            for index in range(results.shape[0]):
+                pred=results.loc[index,["xmin","ymin","xmax","ymax"]].to_dict()
+                predictions.append(pred)
+
+        return predictions
 
 if __name__ == '__main__':
     test=yolo_model()
