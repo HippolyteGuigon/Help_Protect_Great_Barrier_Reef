@@ -35,20 +35,12 @@ valid_set/*
 !train_images/video_0/30.jpg
 !train_images/video_0/200.jpg
 !train_images/video_0/250.jpg
-!train_images/video_0/300.jpg
-!train_images/video_0/350.jpg
 !train_images/video_1/1.jpg
 !train_images/video_1/10.jpg
 !train_images/video_1/100.jpg
-!train_images/video_1/200.jpg
-!train_images/video_1/250.jpg
-!train_images/video_1/300.jpg
 !train_images/video_2/1.jpg
 !train_images/video_2/10.jpg
 !train_images/video_2/100.jpg
-!train_images/video_2/130.jpg
-!train_images/video_2/150.jpg
-!train_images/video_2/180.jpg
 
 
 # Byte-compiled / optimized / DLL files
