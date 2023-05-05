@@ -23,13 +23,13 @@ fitted_model_path = main_params["fitted_model_path"]
 
 class yolo_model:
 
-    def __init__(self):
-        print("ICIIIIIII", os.getcwd())
-        print("ICIIIIIII", os.listdir())
+    def __init__(self, preprocessing=True):
         self.df=pd.read_csv("train.csv")
-        preprocess=preprocessing_yolo(self.df)
-        preprocess.full_conversion()
-        preprocess.saving_result()
+        
+        if preprocessing:
+            preprocess=preprocessing_yolo(self.df)
+            preprocess.full_conversion()
+            preprocess.saving_result()
 
     def get_split(self)->None:
         """

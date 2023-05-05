@@ -42,6 +42,16 @@ valid_set/*
 !train_images/video_2/1.jpg
 !train_images/video_2/10.jpg
 !train_images/video_2/100.jpg
+!train_images/video_0/5.txt
+!train_images/video_0/30.txt
+!train_images/video_0/200.txt
+!train_images/video_0/250.txt
+!train_images/video_1/1.txt
+!train_images/video_1/10.txt
+!train_images/video_1/100.txt
+!train_images/video_2/1.txt
+!train_images/video_2/10.txt
+!train_images/video_2/100.txt
 
 
 # Byte-compiled / optimized / DLL files

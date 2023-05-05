@@ -42,7 +42,7 @@ class Test(unittest.TestCase):
 
         copy_yolo_file()
         
-        model=yolo_model()
+        model=yolo_model(preprocessing=False)
         model.get_split()
         model.split_files()
 
