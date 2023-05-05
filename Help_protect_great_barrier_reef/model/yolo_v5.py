@@ -135,7 +135,7 @@ class yolo_model:
                                    image_name.replace(".jpg", ".txt")),os.path.join(self.split_path,"train_set",video_name+"_"+image_name.replace(".jpg", ".txt")))
         
         logging.info("Split done !")
-
+        
     def fit(self)->None:
         """
         The goal of this

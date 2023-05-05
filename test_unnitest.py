@@ -30,8 +30,9 @@ class Test(unittest.TestCase):
     def test_yolo_repartition(self) -> None:
         """
         The goal of this function is to check
-        if the yolo_v5 model fits well when 
-        asked to
+        if the model preprocessing works well 
+        when allocating the images and annotations
+        between the different sets
 
         Arguments:
             -None
@@ -47,12 +48,20 @@ class Test(unittest.TestCase):
         model.split_files()
 
         nb_images=len(glob.glob("train_images/*/*.jpg"))
-        nb_test_images=len(glob.glob(model.split_path+"test_set/*.jpg"))
-        nb_train_images=len(glob.glob(model.split_path+"train_set/*.jpg"))
-        nb_valid_images=len(glob.glob(model.split_path+"valid_set/*.jpg"))
+        nb_annotation = len(glob.glob("train_images/*/*.txt"))
+
+        nb_test_images=len(glob.glob(model.split_path+"/test_set/*.jpg"))
+        nb_train_images=len(glob.glob(model.split_path+"/train_set/*.jpg"))
+        nb_valid_images=len(glob.glob(model.split_path+"/valid_set/*.jpg"))
+
+        nb_test_annotation=len(glob.glob(model.split_path+"/test_set/*.txt"))
+        nb_train_annotation=len(glob.glob(model.split_path+"/train_set/*.txt"))
+        nb_valid_annotation=len(glob.glob(model.split_path+"/valid_set/*.txt"))
 
         self.assertEqual(nb_images, nb_test_images+nb_train_images+nb_valid_images)
-        
+        self.assertEqual(nb_annotation, nb_test_annotation+nb_train_annotation+nb_valid_annotation)
+
+
     def test_yolo_predict(self)->None:
         pass
 
