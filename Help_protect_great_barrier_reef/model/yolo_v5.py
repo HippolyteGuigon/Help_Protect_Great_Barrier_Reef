@@ -62,8 +62,9 @@ class yolo_model:
         annotations.sort()
         images.sort()
 
-        print(len(images))
-        print(len(annotations))
+        annotations_check=[x.replace(".txt","") for x in annotations]
+        image_check=[x.replace(".jpg", "") for x in images]
+        missing_images=[x for x in image_check if x not in annotations_check]
 
         self.train_images, self.val_images, self.train_annotations, self.val_annotations = \
         train_test_split(images, annotations, test_size=0.2)
@@ -79,19 +80,20 @@ class yolo_model:
                                  please call the get_split method")
         
         if not os.path.exists(self.split_path):
-            self.split_path=os.path.join(os.getcwd(),self.split_path)
+            for root, dirs, _ in os.walk(".", topdown=False):
+                for name in dirs:
+                    if os.path.join(root, name).split("/")[-1]=="yolov5":
+                        self.split_path=os.path.join(root, name)
+                        break
+
             
         for path_set in ["train_set", "test_set", "valid_set"]:
             full_path=os.path.join(self.split_path,path_set)
             if not os.path.exists(full_path):
-                logging.info("Parsed here 1")
                 os.mkdir(full_path)
-                logging.info("Success 1")
             else:
-                logging.info("Parsed here 2")
                 shutil.rmtree(full_path)
                 os.mkdir(full_path)     
-                logging.info("Success 2")
 
         logging.info("Splitting the files between the different sets...")
 
