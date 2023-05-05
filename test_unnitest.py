@@ -10,6 +10,7 @@ logger.setLevel(logging.INFO)
 formatter = logging.Formatter("%(asctime)s | %(levelname)s | %(message)s")
 
 def get_all_files()->None:
+    logging.info("Function parsed")
     if not os.path.exists("train_images/"):
         logging.info("Copying all files")
         os.system("kaggle competitions download -c tensorflow-great-barrier-reef")
@@ -47,7 +48,7 @@ class Test(unittest.TestCase):
         Returns:
             -None
         """
-
+        get_all_files()
         copy_yolo_file()
         
         model=yolo_model()
