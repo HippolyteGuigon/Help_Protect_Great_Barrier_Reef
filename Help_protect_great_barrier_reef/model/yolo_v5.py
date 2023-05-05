@@ -72,6 +72,9 @@ class yolo_model:
             raise AssertionError("Definition of split sets was not done,\
                                  please call the get_split method")
         
+        if not os.path.exists(split_path):
+            split_path=os.path.join(os.getcwd(),split_path)
+            
         for path_set in ["train_set", "test_set", "valid_set"]:
             full_path=os.path.join(split_path,path_set)
             if not os.path.exists(full_path):
