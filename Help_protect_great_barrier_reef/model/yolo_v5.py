@@ -59,20 +59,12 @@ class yolo_model:
         annotations.sort()
         images.sort()
 
-        print(annotations)
-        print(images)
-        
-        logging.info("Sort done")
-
         self.train_images, self.val_images, self.train_annotations, self.val_annotations = \
         train_test_split(images, annotations, test_size=0.2)
         
-        logging.info("First split done")
-
         self.val_images, self.test_images, self.val_annotations, self.test_annotations =\
         train_test_split(self.val_images, self.val_annotations, test_size=0.5)
 
-        logging.info("Second split done")
 
     def split_files(self)->None:
         if not all([hasattr(self, attr) for attr in ["train_images",
@@ -83,10 +75,14 @@ class yolo_model:
         for path_set in ["train_set", "test_set", "valid_set"]:
             full_path=os.path.join(split_path,path_set)
             if not os.path.exists(full_path):
+                logging.info("Parsed here 1")
                 os.mkdir(full_path)
+                logging.info("Success 1")
             else:
+                logging.info("Parsed here 2")
                 shutil.rmtree(full_path)
                 os.mkdir(full_path)     
+                logging.info("Success 2")
 
         logging.info("Splitting the files between the different sets...")
 
