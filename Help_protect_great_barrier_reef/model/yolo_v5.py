@@ -72,6 +72,7 @@ class yolo_model:
             raise AssertionError("Definition of split sets was not done,\
                                  please call the get_split method")
         
+        split_path="Help_protect_great_barrier_reef/model/yolov5_ws/yolov5"
         if not os.path.exists(split_path):
             split_path=os.path.join(os.getcwd(),"Help_protect_great_barrier_reef/model/yolov5_ws/yolov5")
             
