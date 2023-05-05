@@ -22,7 +22,17 @@ train_file_path = main_params["train_file_path"]
 fitted_model_path = main_params["fitted_model_path"]
 
 class yolo_model:
-
+    """
+    The goal of this class is
+    the implementation of the
+    yolov5 model
+    
+    Arguments:
+        -preprocessing: bool: Determines
+        wheter train files should be preprocessed
+    Returs:
+        -None
+    """
     def __init__(self, preprocessing=True):
         self.df=pd.read_csv("train.csv")
         
@@ -49,11 +59,20 @@ class yolo_model:
         annotations.sort()
         images.sort()
 
+        print(annotations)
+        print(images)
+        
+        logging.info("Sort done")
+
         self.train_images, self.val_images, self.train_annotations, self.val_annotations = \
         train_test_split(images, annotations, test_size=0.2)
         
+        logging.info("First split done")
+
         self.val_images, self.test_images, self.val_annotations, self.test_annotations =\
         train_test_split(self.val_images, self.val_annotations, test_size=0.5)
+
+        logging.info("Second split done")
 
     def split_files(self)->None:
         if not all([hasattr(self, attr) for attr in ["train_images",
