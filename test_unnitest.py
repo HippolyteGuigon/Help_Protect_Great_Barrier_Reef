@@ -47,9 +47,9 @@ class Test(unittest.TestCase):
         model.split_files()
 
         nb_images=len(glob.glob("train_images/*/*.jpg"))
-        nb_test_images=len(glob.glob("Help_protect_great_barrier_reef/model/yolov5_ws/yolov5/test_set/*.jpg"))
-        nb_train_images=len(glob.glob("Help_protect_great_barrier_reef/model/yolov5_ws/yolov5/train_set/*.jpg"))
-        nb_valid_images=len(glob.glob("Help_protect_great_barrier_reef/model/yolov5_ws/yolov5/valid_set/*.jpg"))
+        nb_test_images=len(glob.glob(model.split_path+"test_set/*.jpg"))
+        nb_train_images=len(glob.glob(model.split_path+"train_set/*.jpg"))
+        nb_valid_images=len(glob.glob(model.split_path+"valid_set/*.jpg"))
 
         self.assertEqual(nb_images, nb_test_images+nb_train_images+nb_valid_images)
         
