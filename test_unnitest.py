@@ -17,7 +17,7 @@ def copy_yolo_file()->None:
             os.system("git clone https://github.com/ultralytics/yolov5")
             os.system("cd yolov5")
             os.system("pip install -r requirements.txt")
-            os.chdir("../../../../")
+            os.chdir("../../../")
 
 class Test(unittest.TestCase):
     """
