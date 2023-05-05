@@ -9,6 +9,14 @@ logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 formatter = logging.Formatter("%(asctime)s | %(levelname)s | %(message)s")
 
+def get_all_files()->None:
+    if not os.path.exists("train_images/"):
+        logging.info("Copying all files")
+        os.system("kaggle competitions download -c tensorflow-great-barrier-reef")
+        logging.info("Extracting files...")
+        os.system("unzip tensorflow-great-barrier-reef.zip")
+        logging.info("Files succesfully unzipped...")
+
 def copy_yolo_file()->None:
     if not os.path.exists("Help_protect_great_barrier_reef/model/yolov5_ws"):
             os.chdir("Help_protect_great_barrier_reef/model")
@@ -59,4 +67,6 @@ class Test(unittest.TestCase):
 
 if __name__ == "__main__":
     main()
+    get_all_files()
+    copy_yolo_file()
     unittest.main()
