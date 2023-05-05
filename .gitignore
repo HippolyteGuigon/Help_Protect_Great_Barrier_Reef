@@ -32,27 +32,43 @@ valid_set/*
 
 #Only these images will be pushed to perform tests
 
-!train_images/video_0/5.jpg
-!train_images/video_0/30.jpg
 !train_images/video_0/200.jpg
 !train_images/video_0/250.jpg
+!train_images/video_0/30.jpg
+!train_images/video_0/300.jpg
+!train_images/video_0/350.jpg
+!train_images/video_0/5.jpg
 !train_images/video_1/1.jpg
 !train_images/video_1/10.jpg
 !train_images/video_1/100.jpg
+!train_images/video_1/200.jpg
+!train_images/video_1/250.jpg
+!train_images/video_1/300.jpg
 !train_images/video_2/1.jpg
 !train_images/video_2/10.jpg
 !train_images/video_2/100.jpg
-!train_images/video_0/5.txt
-!train_images/video_0/30.txt
+!train_images/video_2/130.jpg
+!train_images/video_2/150.jpg
+!train_images/video_2/180.jpg
+
 !train_images/video_0/200.txt
 !train_images/video_0/250.txt
+!train_images/video_0/30.txt
+!train_images/video_0/300.txt
+!train_images/video_0/350.txt
+!train_images/video_0/5.txt
 !train_images/video_1/1.txt
 !train_images/video_1/10.txt
 !train_images/video_1/100.txt
+!train_images/video_1/200.txt
+!train_images/video_1/250.txt
+!train_images/video_1/300.txt
 !train_images/video_2/1.txt
 !train_images/video_2/10.txt
 !train_images/video_2/100.txt
-
+!train_images/video_2/130.txt
+!train_images/video_2/150.txt
+!train_images/video_2/180.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
