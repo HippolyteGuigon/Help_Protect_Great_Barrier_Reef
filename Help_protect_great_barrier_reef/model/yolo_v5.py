@@ -64,7 +64,7 @@ class yolo_model:
 
         print(len(images))
         print(len(annotations))
-        
+
         self.train_images, self.val_images, self.train_annotations, self.val_annotations = \
         train_test_split(images, annotations, test_size=0.2)
         
@@ -112,25 +112,25 @@ class yolo_model:
             video_name=valid_image_path.split("/")[1]
             image_name=valid_image_path.split("/")[2]
             shutil.copy(valid_image_path,
-                        os.path.join(split_path,"valid_set"))
+                        os.path.join(self.split_path,"valid_set"))
             shutil.copy(valid_image_path.replace(".jpg", ".txt"),
-                        os.path.join(split_path,"valid_set"))
-            os.rename(os.path.join(split_path,
-                                   "valid_set",image_name),os.path.join(split_path,"valid_set",video_name+"_"+image_name))
-            os.rename(os.path.join(split_path,
-                                   "valid_set",image_name.replace(".jpg", ".txt")),os.path.join(split_path,"valid_set",video_name+"_"+image_name.replace(".jpg", ".txt")))
+                        os.path.join(self.split_path,"valid_set"))
+            os.rename(os.path.join(self.split_path,
+                                   "valid_set",image_name),os.path.join(self.split_path,"valid_set",video_name+"_"+image_name))
+            os.rename(os.path.join(self.split_path,
+                                   "valid_set",image_name.replace(".jpg", ".txt")),os.path.join(self.split_path,"valid_set",video_name+"_"+image_name.replace(".jpg", ".txt")))
 
         logging.info("Allocating train set image...")
         for train_image_path in tqdm(self.train_images):
             video_name=train_image_path.split("/")[1]
             image_name=train_image_path.split("/")[2]
-            shutil.copy(train_image_path, os.path.join(split_path,"train_set"))
+            shutil.copy(train_image_path, os.path.join(self.split_path,"train_set"))
             shutil.copy(train_image_path.replace(".jpg", ".txt"),  
-                        os.path.join(split_path,"train_set"))
-            os.rename(os.path.join(split_path,"train_set",
-                                   image_name),os.path.join(split_path,"train_set",video_name+"_"+image_name))
-            os.rename(os.path.join(split_path,"train_set",
-                                   image_name.replace(".jpg", ".txt")),os.path.join(split_path,"train_set",video_name+"_"+image_name.replace(".jpg", ".txt")))
+                        os.path.join(self.split_path,"train_set"))
+            os.rename(os.path.join(self.split_path,"train_set",
+                                   image_name),os.path.join(self.split_path,"train_set",video_name+"_"+image_name))
+            os.rename(os.path.join(self.split_path,"train_set",
+                                   image_name.replace(".jpg", ".txt")),os.path.join(self.split_path,"train_set",video_name+"_"+image_name.replace(".jpg", ".txt")))
         
         logging.info("Split done !")
 
