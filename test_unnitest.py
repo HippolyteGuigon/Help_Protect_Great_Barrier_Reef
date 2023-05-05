@@ -12,7 +12,9 @@ formatter = logging.Formatter("%(asctime)s | %(levelname)s | %(message)s")
 def get_all_files()->None:
     logging.info("Function parsed")
     if not os.path.exists("train_images/"):
-        os.system("chmod 600 .kaggle/kaggle.json")
+        os.system("export KAGGLE_USERNAME='mogalys900'")
+        os.system("export KAGGLE_KEY='e2998990c6a94aba149a4ddcfb18e15e'")
+        #os.system("chmod 600 .kaggle/kaggle.json")
         logging.info("Copying all files")
         os.system("kaggle competitions download -c tensorflow-great-barrier-reef")
         logging.info("Extracting files...")
