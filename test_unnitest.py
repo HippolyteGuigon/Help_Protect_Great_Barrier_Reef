@@ -12,11 +12,12 @@ formatter = logging.Formatter("%(asctime)s | %(levelname)s | %(message)s")
 def get_all_files()->None:
     logging.info("Function parsed")
     if not os.path.exists("train_images/"):
-        os.system("chmod 600 ~/.kaggle/kaggle.json")
+        os.system("chmod 600 .kaggle/kaggle.json")
         logging.info("Copying all files")
         os.system("kaggle competitions download -c tensorflow-great-barrier-reef")
         logging.info("Extracting files...")
-        os.system("unzip tensorflow-great-barrier-reef.zip")
+        os.system("unzip -p tensorflow-great-barrier-reef.zip train.csv")
+        os.system("unzip -p tensorflow-great-barrier-reef.zip train_images")
         logging.info("Files succesfully unzipped...")
 
 def copy_yolo_file()->None:
