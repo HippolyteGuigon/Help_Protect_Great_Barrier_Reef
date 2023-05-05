@@ -18,7 +18,7 @@ def get_all_files()->None:
         os.system("kaggle competitions download -c tensorflow-great-barrier-reef")
         logging.info("Extracting files...")
         os.system("unzip tensorflow-great-barrier-reef.zip -d tensorflow-great-barrier-reef")
-        print("ICIIIIII", os.listdir())
+        print("ICIIIIIII", os.listdir())
         logging.info("Files succesfully unzipped...")
         shutil.move("tensorflow-great-barrier-reef/train.csv","train.csv")
         shutil.move("tensorflow-great-barrier-reef/train_images","train_images")
