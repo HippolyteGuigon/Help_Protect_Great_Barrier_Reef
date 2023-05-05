@@ -11,13 +11,7 @@ from tqdm import tqdm
 
 tqdm.pandas()
 
-logger = logging.getLogger()
-logger.setLevel(logging.INFO)
-formatter = logging.Formatter("%(asctime)s | %(levelname)s | %(message)s")
-
 main()
-
-tqdm.pandas()
 
 main_params = load_conf("configs/main.yml", include=True)
 main_params = clean_params(main_params)
