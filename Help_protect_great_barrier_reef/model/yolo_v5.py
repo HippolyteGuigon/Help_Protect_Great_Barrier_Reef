@@ -15,12 +15,6 @@ from Help_protect_great_barrier_reef.preprocessing.preprocessing import preproce
 from Help_protect_great_barrier_reef.logs.logs import main
 from Help_protect_great_barrier_reef.configs.confs import load_conf, clean_params, Loader
 
-main_params = load_conf("configs/main.yml", include=True)
-main_params = clean_params(main_params)
-split_path = main_params["split_path"]
-train_file_path = main_params["train_file_path"]
-fitted_model_path = main_params["fitted_model_path"]
-
 class yolo_model:
     """
     The goal of this class is
@@ -34,8 +28,17 @@ class yolo_model:
         -None
     """
     def __init__(self, preprocessing=True):
-        self.df=pd.read_csv("train.csv")
+        main_params = load_conf("configs/main.yml", include=True)
+        main_params = clean_params(main_params)
+        split_path = main_params["split_path"]
+        train_file_path = main_params["train_file_path"]
+        fitted_model_path = main_params["fitted_model_path"]
         
+        self.df=pd.read_csv("train.csv")
+        self.split_path=split_path
+        self.train_file_path=train_file_path
+        self.fitted_model_path=fitted_model_path
+
         if preprocessing:
             preprocess=preprocessing_yolo(self.df)
             preprocess.full_conversion()
@@ -59,6 +62,9 @@ class yolo_model:
         annotations.sort()
         images.sort()
 
+        print(len(images))
+        print(len(annotations))
+        
         self.train_images, self.val_images, self.train_annotations, self.val_annotations = \
         train_test_split(images, annotations, test_size=0.2)
         
@@ -72,12 +78,11 @@ class yolo_model:
             raise AssertionError("Definition of split sets was not done,\
                                  please call the get_split method")
         
-        split_path="Help_protect_great_barrier_reef/model/yolov5_ws/yolov5"
-        if not os.path.exists(split_path):
-            split_path=os.path.join(os.getcwd(),"Help_protect_great_barrier_reef/model/yolov5_ws/yolov5")
+        if not os.path.exists(self.split_path):
+            self.split_path=os.path.join(os.getcwd(),self.split_path)
             
         for path_set in ["train_set", "test_set", "valid_set"]:
-            full_path=os.path.join(split_path,path_set)
+            full_path=os.path.join(self.split_path,path_set)
             if not os.path.exists(full_path):
                 logging.info("Parsed here 1")
                 os.mkdir(full_path)
@@ -94,13 +99,13 @@ class yolo_model:
         for test_image_path in tqdm(self.test_images):
             video_name=test_image_path.split("/")[1]
             image_name=test_image_path.split("/")[2]
-            shutil.copy(test_image_path, os.path.join(split_path,"test_set"))
+            shutil.copy(test_image_path, os.path.join(self.split_path,"test_set"))
             shutil.copy(test_image_path.replace(".jpg", ".txt"),  
-                        os.path.join(split_path,"test_set"))
-            os.rename(os.path.join(split_path,"test_set",image_name),
-                      os.path.join(split_path,"test_set",video_name+"_"+image_name))
-            os.rename(os.path.join(split_path,"test_set",
-                                   image_name.replace(".jpg", ".txt")),os.path.join(split_path,"test_set",video_name+"_"+image_name.replace(".jpg", ".txt")))
+                        os.path.join(self.split_path,"test_set"))
+            os.rename(os.path.join(self.split_path,"test_set",image_name),
+                      os.path.join(self.split_path,"test_set",video_name+"_"+image_name))
+            os.rename(os.path.join(self.split_path,"test_set",
+                                   image_name.replace(".jpg", ".txt")),os.path.join(self.split_path,"test_set",video_name+"_"+image_name.replace(".jpg", ".txt")))
                 
         logging.info("Allocating validation set image...")
         for valid_image_path in tqdm(self.val_images):
@@ -144,7 +149,7 @@ class yolo_model:
         """
         
         logging.warning("Fitting of the model has begun")
-        os.system("python3 "+train_file_path)
+        os.system("python3 "+self.train_file_path)
         logging.warning("Fitting of the model has ended")
 
     def model_loading(self)->None:
@@ -159,11 +164,11 @@ class yolo_model:
             -None
         """
 
-        if not os.path.exists(fitted_model_path):
+        if not os.path.exists(self.fitted_model_path):
             raise ValueError("The model needs to be fitted before predicting")
 
         model = torch.hub.load(
-                "ultralytics/yolov5", "custom", fitted_model_path
+                "ultralytics/yolov5", "custom", self.fitted_model_path
                 )
         
         self.model=model
@@ -184,7 +189,7 @@ class yolo_model:
             a given image
         """
 
-        if not os.path.exists(fitted_model_path):
+        if not os.path.exists(self.fitted_model_path):
             raise ValueError("The model needs to be fitted before predicting")
         
         if not hasattr(self,"model"):
