@@ -14,16 +14,16 @@ def get_all_files()->None:
     logging.info("Function parsed")
     if not os.path.exists("train_images/"):
         os.environ['KAGGLE_CONFIG_DIR'] = ".kaggle/"
-        #os.system("chmod 600 .kaggle/kaggle.json")
         logging.info("Copying all files")
         os.system("kaggle competitions download -c tensorflow-great-barrier-reef")
         logging.info("Extracting files...")
         os.system("unzip -p tensorflow-great-barrier-reef.zip train.csv")
         os.system("unzip -p tensorflow-great-barrier-reef.zip train_images")
+        print("ICIIIIII", os.listdir())
         logging.info("Files succesfully unzipped...")
         shutil.move("tensorflow-great-barrier-reef/train.csv","train.csv")
         shutil.move("tensorflow-great-barrier-reef/train_images","train_images")
-        
+
 def copy_yolo_file()->None:
     if not os.path.exists("Help_protect_great_barrier_reef/model/yolov5_ws"):
             os.chdir("Help_protect_great_barrier_reef/model")
