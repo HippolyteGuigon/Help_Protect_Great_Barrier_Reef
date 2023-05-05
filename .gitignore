@@ -12,12 +12,6 @@
 #Excluded folders 
 
 train_images/*
-!train_images/video_0
-train_images/video_0/*
-!train_images/video_1
-train_images/video_1/*
-!train_images/video_2
-train_images/video_2/*
 greatbarrierreef/*
 ressources/*
 train_set/*
@@ -27,21 +21,7 @@ valid_set/*
 
 #At the exception of these files
 
-!requirements.txt
-
-#Only these images will be pushed to perform tests
-
-!train_images/video_0/5.jpg
-!train_images/video_0/30.jpg
-!train_images/video_0/200.jpg
-!train_images/video_0/250.jpg
-!train_images/video_1/1.jpg
-!train_images/video_1/10.jpg
-!train_images/video_1/100.jpg
-!train_images/video_2/1.jpg
-!train_images/video_2/10.jpg
-!train_images/video_2/100.jpg
-
+!requirements.txt 
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
