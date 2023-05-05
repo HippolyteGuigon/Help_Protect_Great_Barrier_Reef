@@ -73,7 +73,7 @@ class yolo_model:
                                  please call the get_split method")
         
         if not os.path.exists(split_path):
-            split_path=os.path.join(os.getcwd(),split_path)
+            split_path=os.path.join(os.getcwd(),"Help_protect_great_barrier_reef/model/yolov5_ws/yolov5")
             
         for path_set in ["train_set", "test_set", "valid_set"]:
             full_path=os.path.join(split_path,path_set)
