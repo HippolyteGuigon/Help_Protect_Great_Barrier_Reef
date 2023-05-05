@@ -2,6 +2,7 @@ import unittest
 import logging
 import glob
 import os
+import shutil
 from Help_protect_great_barrier_reef.logs.logs import main
 from Help_protect_great_barrier_reef.model.yolo_v5 import yolo_model
 
@@ -20,7 +21,9 @@ def get_all_files()->None:
         os.system("unzip -p tensorflow-great-barrier-reef.zip train.csv")
         os.system("unzip -p tensorflow-great-barrier-reef.zip train_images")
         logging.info("Files succesfully unzipped...")
-
+        shutil.move("tensorflow-great-barrier-reef/train.csv","train.csv")
+        shutil.move("tensorflow-great-barrier-reef/train_images","train_images")
+        
 def copy_yolo_file()->None:
     if not os.path.exists("Help_protect_great_barrier_reef/model/yolov5_ws"):
             os.chdir("Help_protect_great_barrier_reef/model")
