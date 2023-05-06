@@ -80,9 +80,12 @@ class Test(unittest.TestCase):
         model.split_files()
         model.fit(nb_epochs=1)
 
-        all_paths=[os.path.join(root, name) for name in files 
-                   for root, _, files in os.walk(".", topdown=False)
-                     if name=="best.pt"]
+        all_paths=[]
+
+        for root, _, files in os.walk(".", topdown=False):
+             for name in files:
+                  if name=="best.pt":
+                       all_paths.append(os.path.join(root, name))
         
         self.assertGreater(len(all_paths,0))
 
