@@ -76,9 +76,16 @@ class Test(unittest.TestCase):
         
         copy_yolo_file()
         model=yolo_model(preprocessing=False)
-        model.get_split(train_size=0.1)
+        model.get_split(train_size=0.5)
         model.split_files()
         model.fit(nb_epochs=1)
+
+        all_paths=[os.path.join(root, name) for name in files 
+                   for root, _, files in os.walk(".", topdown=False)
+                     if name=="best.pt"]
+        
+        self.assertGreater(len(all_paths,0))
+
 
 if __name__ == "__main__":
     main()
