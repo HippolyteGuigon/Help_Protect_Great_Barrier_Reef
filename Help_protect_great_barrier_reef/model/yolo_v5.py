@@ -44,7 +44,7 @@ class yolo_model:
             preprocess.full_conversion()
             preprocess.saving_result()
 
-    def get_split(self)->None:
+    def get_split(self, train_size=0.8)->None:
         """
         The goal of this function
         is to get the different sets 
@@ -52,7 +52,8 @@ class yolo_model:
         model
         
         Arguments: 
-            -None
+            -train_size: float: The
+            size of the train set
         Returns:
             -None
         """
@@ -67,7 +68,7 @@ class yolo_model:
         missing_images=[x for x in image_check if x not in annotations_check]
 
         self.train_images, self.val_images, self.train_annotations, self.val_annotations = \
-        train_test_split(images, annotations, test_size=0.2)
+        train_test_split(images, annotations, test_size=1-train_size)
         
         self.val_images, self.test_images, self.val_annotations, self.test_annotations =\
         train_test_split(self.val_images, self.val_annotations, test_size=0.5)
@@ -136,7 +137,7 @@ class yolo_model:
         
         logging.info("Split done !")
         
-    def fit(self)->None:
+    def fit(self, nb_epochs=1)->None:
         """
         The goal of this
         function is to launch
@@ -144,14 +145,15 @@ class yolo_model:
         model
         
         Arguments:
-            -None
+            -nb_epochs: int: The number
+            of epochs of the model
         
         Returns:
             -None
         """
         
         logging.warning("Fitting of the model has begun")
-        os.system("python3 "+self.train_file_path)
+        os.system("python3 "+self.train_file_path+" --epochs "+str(nb_epochs))
         logging.warning("Fitting of the model has ended")
 
     def model_loading(self)->None:

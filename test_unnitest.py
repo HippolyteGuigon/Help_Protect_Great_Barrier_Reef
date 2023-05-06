@@ -62,9 +62,23 @@ class Test(unittest.TestCase):
         self.assertEqual(nb_annotation, nb_test_annotation+nb_train_annotation+nb_valid_annotation)
 
 
-    def test_yolo_predict(self)->None:
-        pass
-
+    def test_yolo_fit(self)->None:
+        """
+        The goal of this function
+        is to check if the model is well 
+        fitted when called
+        
+        Arguments:
+            -None
+        Returns:
+            -None
+        """
+        
+        copy_yolo_file()
+        model=yolo_model(preprocessing=False)
+        model.get_split(train_size=0.1)
+        model.split_files()
+        model.fit(nb_epochs=1)
 
 if __name__ == "__main__":
     main()
