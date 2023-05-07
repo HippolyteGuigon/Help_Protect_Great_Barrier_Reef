@@ -137,7 +137,7 @@ class yolo_model:
         
         logging.info("Split done !")
         
-    def fit(self, nb_epochs=1)->None:
+    def fit(self, nb_epochs=50)->None:
         """
         The goal of this
         function is to launch
