@@ -23,7 +23,7 @@ ressources/*
 train_set/*
 test_set/*
 valid_set/* 
-
+Help_protect_great_barrier_reef/model/Custom_MaskRCNN/
 
 #At the exception of these files
 
