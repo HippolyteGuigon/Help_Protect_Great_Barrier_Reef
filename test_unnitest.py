@@ -87,7 +87,7 @@ class Test(unittest.TestCase):
                   if name=="best.pt":
                        all_paths.append(os.path.join(root, name))
         
-        self.assertGreater(len(all_paths,0))
+        self.assertGreater(len(all_paths),0)
 
 
 if __name__ == "__main__":

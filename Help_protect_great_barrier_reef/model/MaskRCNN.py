@@ -2,8 +2,11 @@
 
 import glob
 import shutil
+import numpy as np
 from tqdm import tqdm
 from sklearn.model_selection import train_test_split
+from Help_protect_great_barrier_reef.logs.logs import main
+
 
 class MaskRCNN:
     """
@@ -29,3 +32,16 @@ class MaskRCNN:
         Returns:
             -None
         """
+
+        all_images=glob.glob("train_images/*/*.jpg")
+
+        train_set=np.random.choice(all_images, 
+                                   size=np.floor(0.9*len(all_images)), replace=False)
+        
+        val_set=[image_path for image_path in all_images if image_path not in train_set]
+
+
+if __name__ == '__main__':
+    main()
+    test=MaskRCNN()
+    test.split_images()
