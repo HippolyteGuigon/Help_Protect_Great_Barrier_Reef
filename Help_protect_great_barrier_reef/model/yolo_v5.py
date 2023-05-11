@@ -63,10 +63,6 @@ class yolo_model:
         annotations.sort()
         images.sort()
 
-        annotations_check=[x.replace(".txt","") for x in annotations]
-        image_check=[x.replace(".jpg", "") for x in images]
-        missing_images=[x for x in image_check if x not in annotations_check]
-
         self.train_images, self.val_images, self.train_annotations, self.val_annotations = \
         train_test_split(images, annotations, test_size=1-train_size)
         

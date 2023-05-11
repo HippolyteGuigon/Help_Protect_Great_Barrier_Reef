@@ -1,4 +1,5 @@
 #Configs for the yolo_v5 model
 
 train_file_path: Help_protect_great_barrier_reef/model/yolov5_ws/yolov5/train.py
+all_fitted_model_path: Help_protect_great_barrier_reef/model/yolov5_ws/yolov5/runs/train
 fitted_model_path: Help_protect_great_barrier_reef/model/yolov5_ws/yolov5/runs/train/exp22/weights/best.pt
