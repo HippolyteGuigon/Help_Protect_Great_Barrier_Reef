@@ -2,7 +2,6 @@ import unittest
 import logging
 import glob
 import os
-os.system("python3 setup.py install")
 from Help_protect_great_barrier_reef.logs.logs import main
 from Help_protect_great_barrier_reef.model.yolo_v5 import yolo_model
 
@@ -86,6 +85,5 @@ class Test(unittest.TestCase):
              raise Exception("Fitting of the model has failed")
 
 if __name__ == "__main__":
-    os.system("python3 setup.py install")
     main()
     unittest.main()
