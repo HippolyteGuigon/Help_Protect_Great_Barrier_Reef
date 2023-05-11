@@ -2,6 +2,7 @@ import unittest
 import logging
 import glob
 import os
+print("ICIIIIII", os.listdir())
 from Help_protect_great_barrier_reef.logs.logs import main
 from Help_protect_great_barrier_reef.model.yolo_v5 import yolo_model
 
