@@ -25,7 +25,7 @@ class Test(unittest.TestCase):
     and check everything commited makes sense
     """
 
-    logging.info("Performing unitest")
+    logging.info("Performing unitest...")
 
     def test_yolo_repartition(self) -> None:
         """
