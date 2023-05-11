@@ -25,6 +25,7 @@ class Test(unittest.TestCase):
     and check everything commited makes sense
     """
 
+    os.system("python3 setup.py install")
     logging.info("Performing unitest...")
 
     def test_yolo_repartition(self) -> None:
