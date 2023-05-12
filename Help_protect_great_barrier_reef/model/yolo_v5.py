@@ -53,6 +53,11 @@ def get_last_model_path()->str:
     last_model=all_models[-1]
     last_model_path=os.path.join(all_fitted_model_path,last_model,"weights/best.pt")
 
+    while not os.path.exists(last_model_path):
+        all_models.pop(-1)
+        last_model=all_models[-1]
+        last_model_path=os.path.join(all_fitted_model_path,last_model,"weights/best.pt")
+
     return last_model_path
 
 class yolo_model:

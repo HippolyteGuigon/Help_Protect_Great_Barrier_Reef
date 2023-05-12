@@ -4,7 +4,7 @@ import glob
 import os
 import numpy as np
 from Help_protect_great_barrier_reef.logs.logs import main
-from Help_protect_great_barrier_reef.model.yolo_v5 import yolo_model
+from Help_protect_great_barrier_reef.model.yolo_v5 import yolo_model, get_last_model_path
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -103,7 +103,7 @@ class Test(unittest.TestCase):
         model.get_split()
         model.split_files()
         model.fit(nb_epochs=1)
-
+        print("ICIIIIIII_path", get_last_model_path())
         to_predict=np.random.choice(all_images,1)[0]
 
         prediction=model.predict(to_predict)
