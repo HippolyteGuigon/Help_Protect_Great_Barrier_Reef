@@ -33,6 +33,10 @@ def get_last_model_path()->str:
     main_params = load_conf("configs/main.yml", include=True)
     main_params = clean_params(main_params)
     all_fitted_model_path=main_params["all_fitted_model_path"]
+
+    if not os.path.exists(all_fitted_model_path):
+        return ''
+    
     all_models=os.listdir(all_fitted_model_path)
     all_models=[path for path in all_models if path.startswith("exp")]
     
@@ -40,7 +44,7 @@ def get_last_model_path()->str:
         return os.path.join(all_fitted_model_path,"exp/weights/best.pt")
     else:
         all_models.remove("exp")
-        
+
     if len(all_models)==0:
         raise AssertionError("The model has never been fitted before\
                              please fit model first")
@@ -190,6 +194,9 @@ class yolo_model:
         logging.warning("Fitting of the model has begun")
         os.system("python3 "+self.train_file_path+" --epochs "+str(nb_epochs))
         logging.warning("Fitting of the model has ended")
+
+        if self.fitted_model_path=="":
+            self.fitted_model_path=get_last_model_path()
 
     def model_loading(self)->None:
         """
