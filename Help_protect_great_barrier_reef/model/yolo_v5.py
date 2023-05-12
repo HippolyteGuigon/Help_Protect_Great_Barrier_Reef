@@ -191,7 +191,7 @@ class yolo_model:
         
         logging.info("Split done !")
         
-    def fit(self, nb_epochs=50)->None:
+    def fit(self, nb_epochs=50, imgsz: int = 200)->None:
         """
         The goal of this
         function is to launch
@@ -201,13 +201,15 @@ class yolo_model:
         Arguments:
             -nb_epochs: int: The number
             of epochs of the model
+            -imgsz: int: The size of the 
+            images that will fit the model
         
         Returns:
             -None
         """
         
         logging.warning("Fitting of the model has begun")
-        os.system("python3 "+self.train_file_path+" --epochs "+str(nb_epochs))
+        os.system("python3 "+self.train_file_path+" --epochs "+str(nb_epochs)+" --imgsz "+str(imgsz))
         logging.warning("Fitting of the model has ended")
 
         self.fitted_model_path=get_last_model_path()
@@ -218,7 +220,10 @@ class yolo_model:
         load the model 
         
         Arguments:
-            -None
+            -github_loading:bool: 
+            Whether the model is loaded
+            for github usage, which implies
+            a path change
             
         Returns:
             -None
