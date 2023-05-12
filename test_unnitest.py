@@ -2,6 +2,7 @@ import unittest
 import logging
 import glob
 import os
+import numpy as np
 from Help_protect_great_barrier_reef.logs.logs import main
 from Help_protect_great_barrier_reef.model.yolo_v5 import yolo_model
 
@@ -83,6 +84,50 @@ class Test(unittest.TestCase):
              model.fit(nb_epochs=1)
         except:
              raise Exception("Fitting of the model has failed")
+    
+    def test_prediction(self):
+        """
+        The goal of this function is
+        to check wheter the Yolo model
+        returns coherent prediction
+        
+        Arguments:
+            -None
+        Returns:
+            -None
+        """
+
+        all_images=glob.glob("train_images/*/*.jpg")
+        model=yolo_model()
+        model.get_split()
+        model.split_files()
+        model.fit(nb_epochs=1)
+
+        to_predict=np.random.choice(all_images,1)
+
+        prediction=model.predict(to_predict)
+
+        self.assertTrue((isinstance(prediction,dict) or isinstance(prediction, list)))
+
+    def test_main(self)->None:
+        
+         """
+         The goal of this 
+         test is to check wheter
+         the main file works
+         
+         Arguments:
+            -None
+            
+        Returns:
+            -None
+        """
+         try:
+              os.system("python3 main.py")
+         except:
+              raise Exception("main file pipeline failed")
+         
+         
 
 if __name__ == "__main__":
     main()

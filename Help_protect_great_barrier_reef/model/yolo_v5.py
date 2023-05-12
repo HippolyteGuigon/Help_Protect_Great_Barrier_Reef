@@ -15,6 +15,42 @@ from Help_protect_great_barrier_reef.preprocessing.preprocessing import preproce
 from Help_protect_great_barrier_reef.logs.logs import main
 from Help_protect_great_barrier_reef.configs.confs import load_conf, clean_params, Loader
 
+
+def get_last_model_path()->str:
+    """
+    The goal of this function is
+    to get the latest version of the
+    fitted yolo_model
+    
+    Arguments:
+        -None
+        
+    Returns:
+        -model_path: str: The path to
+        the latest fitted Yolo model
+    """
+
+    main_params = load_conf("configs/main.yml", include=True)
+    main_params = clean_params(main_params)
+    all_fitted_model_path=main_params["all_fitted_model_path"]
+    all_models=os.listdir(all_fitted_model_path)
+    all_models=[path for path in all_models if path.startswith("exp")]
+    
+    if len(all_models)==1:
+        return os.path.join(all_fitted_model_path,"exp/weights/best.pt")
+    else:
+        all_models.remove("exp")
+        
+    if len(all_models)==0:
+        raise AssertionError("The model has never been fitted before\
+                             please fit model first")
+    
+    all_models=sorted(all_models, key=lambda x: int(x[len("exp"):]))
+    last_model=all_models[-1]
+    last_model_path=os.path.join(all_fitted_model_path,last_model,"weights/best.pt")
+
+    return last_model_path
+
 class yolo_model:
     """
     The goal of this class is
@@ -34,6 +70,9 @@ class yolo_model:
         train_file_path = main_params["train_file_path"]
         fitted_model_path = main_params["fitted_model_path"]
         
+        if not os.path.exists(fitted_model_path):
+            fitted_model_path=get_last_model_path()
+
         self.df=pd.read_csv("train.csv")
         self.split_path=split_path
         self.train_file_path=train_file_path
