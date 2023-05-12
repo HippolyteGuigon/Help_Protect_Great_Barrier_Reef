@@ -97,6 +97,7 @@ class Test(unittest.TestCase):
             -None
         """
 
+        copy_yolo_file()
         all_images=glob.glob("train_images/*/*.jpg")
         model=yolo_model(preprocessing=True)
         model.get_split()
