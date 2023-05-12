@@ -112,7 +112,7 @@ class yolo_model:
             os.remove(file_to_delete)
 
         annotations = glob.glob('train_images/*/*.txt')
-        
+
         annotations.sort()
         images.sort()
 
@@ -205,8 +205,7 @@ class yolo_model:
         os.system("python3 "+self.train_file_path+" --epochs "+str(nb_epochs))
         logging.warning("Fitting of the model has ended")
 
-        if self.fitted_model_path=="":
-            self.fitted_model_path=get_last_model_path()
+        self.fitted_model_path=get_last_model_path()
 
     def model_loading(self)->None:
         """
