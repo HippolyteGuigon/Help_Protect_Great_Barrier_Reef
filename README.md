@@ -3,7 +3,7 @@ The goal of this repository is to participate to the Kaggle competition Help pro
 
 ## Build Status
 
-For the moment, the project has just begun
+For the moment, the Yolo model is available for the resolution of this problem and can be used throughout the main pipeline
 
 Throughout its construction, if you see any improvements that could be made in the code, do not hesitate to reach out at 
 Hippolyte.guigon@hec.edu
@@ -27,3 +27,7 @@ The all project was coded under PEP-8 (https://peps.python.org/pep-0008/) and fl
 Image of startfish localised on the great barrier
 
 ## How to use ? 
+
+To launch the pipeline, use the following command: ```python main.py --model Yolo --fitting fit --train_size size_of_your_choice```
+
+Fitting of the model will then begin 

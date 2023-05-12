@@ -15,6 +15,51 @@ from Help_protect_great_barrier_reef.preprocessing.preprocessing import preproce
 from Help_protect_great_barrier_reef.logs.logs import main
 from Help_protect_great_barrier_reef.configs.confs import load_conf, clean_params, Loader
 
+
+def get_last_model_path()->str:
+    """
+    The goal of this function is
+    to get the latest version of the
+    fitted yolo_model
+    
+    Arguments:
+        -None
+        
+    Returns:
+        -model_path: str: The path to
+        the latest fitted Yolo model
+    """
+
+    main_params = load_conf("configs/main.yml", include=True)
+    main_params = clean_params(main_params)
+    all_fitted_model_path=main_params["all_fitted_model_path"]
+
+    if not os.path.exists(all_fitted_model_path):
+        return ''
+    
+    all_models=os.listdir(all_fitted_model_path)
+    all_models=[path for path in all_models if path.startswith("exp")]
+    
+    if len(all_models)==1:
+        return os.path.join(all_fitted_model_path,"exp/weights/best.pt")
+    else:
+        all_models.remove("exp")
+
+    if len(all_models)==0:
+        raise AssertionError("The model has never been fitted before\
+                             please fit model first")
+    
+    all_models=sorted(all_models, key=lambda x: int(x[len("exp"):]))
+    last_model=all_models[-1]
+    last_model_path=os.path.join(all_fitted_model_path,last_model,"weights/best.pt")
+
+    while not os.path.exists(last_model_path):
+        all_models.pop(-1)
+        last_model=all_models[-1]
+        last_model_path=os.path.join(all_fitted_model_path,last_model,"weights/best.pt")
+
+    return last_model_path
+
 class yolo_model:
     """
     The goal of this class is
@@ -34,6 +79,9 @@ class yolo_model:
         train_file_path = main_params["train_file_path"]
         fitted_model_path = main_params["fitted_model_path"]
         
+        if not os.path.exists(fitted_model_path):
+            fitted_model_path=get_last_model_path()
+
         self.df=pd.read_csv("train.csv")
         self.split_path=split_path
         self.train_file_path=train_file_path
@@ -59,6 +107,16 @@ class yolo_model:
         """
         annotations = glob.glob('train_images/*/*.txt')
         images = glob.glob("train_images/*/*.jpg")
+
+        to_delete=[x for x in annotations if x.replace(".txt",".jpg") not in images]
+
+        if len(to_delete)>0:
+            logging.warning(f"Images for {len(to_delete)} annotations were not found in the dataset and were skipped")
+
+        for file_to_delete in to_delete:
+            os.remove(file_to_delete)
+
+        annotations = glob.glob('train_images/*/*.txt')
 
         annotations.sort()
         images.sort()
@@ -133,7 +191,7 @@ class yolo_model:
         
         logging.info("Split done !")
         
-    def fit(self, nb_epochs=50)->None:
+    def fit(self, nb_epochs=50, imgsz: int = 200)->None:
         """
         The goal of this
         function is to launch
@@ -143,14 +201,18 @@ class yolo_model:
         Arguments:
             -nb_epochs: int: The number
             of epochs of the model
+            -imgsz: int: The size of the 
+            images that will fit the model
         
         Returns:
             -None
         """
         
         logging.warning("Fitting of the model has begun")
-        os.system("python3 "+self.train_file_path+" --epochs "+str(nb_epochs))
+        os.system("python3 "+self.train_file_path+" --epochs "+str(nb_epochs)+" --imgsz "+str(imgsz))
         logging.warning("Fitting of the model has ended")
+
+        self.fitted_model_path=get_last_model_path()
 
     def model_loading(self)->None:
         """
@@ -158,7 +220,10 @@ class yolo_model:
         load the model 
         
         Arguments:
-            -None
+            -github_loading:bool: 
+            Whether the model is loaded
+            for github usage, which implies
+            a path change
             
         Returns:
             -None
@@ -189,9 +254,6 @@ class yolo_model:
             a given image
         """
 
-        if not os.path.exists(self.fitted_model_path):
-            raise ValueError("The model needs to be fitted before predicting")
-        
         if not hasattr(self,"model"):
             self.model_loading()
         
