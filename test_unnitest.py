@@ -103,7 +103,7 @@ class Test(unittest.TestCase):
         model.get_split()
         model.split_files()
         model.fit(nb_epochs=1)
-        logging.info("ICIIIIIII", os.listdir("Help_protect_great_barrier_reef/model/yolov5_ws/yolov5/runs/train"))
+        logging.info("ICIIIIIII", os.listdir("Help_protect_great_barrier_reef/model"))
         
         to_predict=np.random.choice(all_images,1)[0]
 
