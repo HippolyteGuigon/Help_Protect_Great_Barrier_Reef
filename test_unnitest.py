@@ -105,7 +105,7 @@ class Test(unittest.TestCase):
         model.fit(nb_epochs=1)
 
         to_predict=np.random.choice(all_images,1)
-
+        print("ICIIIIIIIIIIIIIIIII", model.fitted_model_path)
         prediction=model.predict(to_predict)
 
         self.assertTrue((isinstance(prediction,dict) or isinstance(prediction, list)))
