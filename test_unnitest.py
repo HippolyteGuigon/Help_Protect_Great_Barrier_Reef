@@ -104,8 +104,8 @@ class Test(unittest.TestCase):
         model.split_files()
         model.fit(nb_epochs=1)
 
-        to_predict=np.random.choice(all_images,1)
-        print("ICIIIIIIIIIIIIIIIII", model.fitted_model_path)
+        to_predict=np.random.choice(all_images,1)[0]
+
         prediction=model.predict(to_predict)
 
         self.assertTrue((isinstance(prediction,dict) or isinstance(prediction, list)))

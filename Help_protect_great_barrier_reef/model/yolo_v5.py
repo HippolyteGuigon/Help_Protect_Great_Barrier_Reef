@@ -244,9 +244,6 @@ class yolo_model:
             a given image
         """
 
-        if not os.path.exists(self.fitted_model_path):
-            raise ValueError("The model needs to be fitted before predicting")
-        
         if not hasattr(self,"model"):
             self.model_loading()
         
