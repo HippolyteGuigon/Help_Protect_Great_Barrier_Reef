@@ -103,6 +103,11 @@ class yolo_model:
         annotations = glob.glob('train_images/*/*.txt')
         images = glob.glob("train_images/*/*.jpg")
 
+        to_delete=[x for x in annotations if x.replace(".txt",".jpg") not in images]
+
+        for file_to_delete in to_delete:
+            os.remove(file_to_delete)
+            
         annotations.sort()
         images.sort()
 
