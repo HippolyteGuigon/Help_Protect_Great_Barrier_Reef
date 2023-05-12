@@ -111,6 +111,8 @@ class yolo_model:
         for file_to_delete in to_delete:
             os.remove(file_to_delete)
 
+        annotations = glob.glob('train_images/*/*.txt')
+        
         annotations.sort()
         images.sort()
 

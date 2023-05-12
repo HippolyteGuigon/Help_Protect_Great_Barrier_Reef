@@ -98,7 +98,7 @@ class Test(unittest.TestCase):
         """
 
         all_images=glob.glob("train_images/*/*.jpg")
-        model=yolo_model()
+        model=yolo_model(preprocessing=True)
         model.get_split()
         model.split_files()
         model.fit(nb_epochs=1)
