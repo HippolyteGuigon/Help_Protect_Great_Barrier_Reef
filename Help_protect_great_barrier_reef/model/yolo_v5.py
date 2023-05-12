@@ -106,9 +106,8 @@ class yolo_model:
         to_delete=[x for x in annotations if x.replace(".txt",".jpg") not in images]
 
         if len(to_delete)>0:
-            logging.warning(f"Images for {len(to_delete)} annotations were not\
-                            found in the dataset and were skipped")
-            
+            logging.warning(f"Images for {len(to_delete)} annotations were not found in the dataset and were skipped")
+
         for file_to_delete in to_delete:
             os.remove(file_to_delete)
 

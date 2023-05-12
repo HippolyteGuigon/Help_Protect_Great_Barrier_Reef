@@ -98,7 +98,9 @@ class Test(unittest.TestCase):
         """
 
         all_images=glob.glob("train_images/*/*.jpg")
-        model=yolo_model(preprocessing=True)
+        model=yolo_model()
+        model.get_split()
+        model.split_files()
         model.fit(nb_epochs=1)
 
         to_predict=np.random.choice(all_images,1)
