@@ -9,7 +9,7 @@
 .DS_Store
 .vscode/
 
-#Excluded folders 
+#Excluded folders
 
 train_images/*
 !train_images/video_0
@@ -22,8 +22,9 @@ greatbarrierreef/*
 ressources/*
 train_set/*
 test_set/*
-valid_set/* 
+valid_set/*
 Help_protect_great_barrier_reef/model/Custom_MaskRCNN/
+Help_protect_great_barrier_reef/model/keras-frcnn/*
 
 #At the exception of these files
 
