@@ -145,13 +145,30 @@ class preprocessing_faster_rcnn:
     rcnn method
 
     Arguments:
-        -None
+        -df: pd.DataFrame: The
+        original train DataFrame
+        from which image information
+        will be retreived
     Returns:
         -None
     """
 
     def __init__(self) -> None:
-        pass
+        self.df = pd.read_csv("train.csv")
+
+    def dataframe_preprocessing(self) -> None:
+        """
+        The goal of this function
+        is to preprocess the original
+        train DataFrame so that it
+        corresponds to faster cnn train
+        format.
+
+        Arguments:
+            -None
+        Returns:
+            -None
+        """
 
 
 def clean_all_files() -> None:
