@@ -1,11 +1,15 @@
-import pandas as pd 
-import ast 
+import pandas as pd
+import ast
 import os
 import logging
 import glob
 from typing import List
 from PIL import Image
-from Help_protect_great_barrier_reef.configs.confs import load_conf, clean_params, Loader
+from Help_protect_great_barrier_reef.configs.confs import (
+    load_conf,
+    clean_params,
+    Loader,
+)
 from Help_protect_great_barrier_reef.logs.logs import main
 from tqdm import tqdm
 
@@ -15,36 +19,41 @@ main()
 
 main_params = load_conf("configs/main.yml", include=True)
 main_params = clean_params(main_params)
-image_width=main_params["width"]
-image_height=main_params["height"]
+image_width = main_params["width"]
+image_height = main_params["height"]
+
 
 class preprocessing_yolo:
     """
     The goal of this class is
     to preprocess images to match
     with a Yolo v5 pipeline
-    
+
     Arguments:
         -df: pd.DataFrame: The
         Dataframe with image coordinates
         annotations to be modified
-        
+
     Returns:
         -None
     """
 
-    def __init__(self, df: pd.DataFrame)->None:
-        self.df=df
-        self.df["annotations"]=self.df["annotations"].apply(lambda x: list() if x=="[]" else ast.literal_eval(x))
-        self.df["annotations"]=self.df["annotations"]+self.df["image_id"].apply(lambda x: [x])
+    def __init__(self, df: pd.DataFrame) -> None:
+        self.df = df
+        self.df["annotations"] = self.df["annotations"].apply(
+            lambda x: list() if x == "[]" else ast.literal_eval(x)
+        )
+        self.df["annotations"] = self.df["annotations"] + self.df["image_id"].apply(
+            lambda x: [x]
+        )
 
-    def convert_coordinates(self, list_dict: List[dict])->List[dict]:
+    def convert_coordinates(self, list_dict: List[dict]) -> List[dict]:
         """
         The goal of this function is to
-        convert the coordinates of a given 
+        convert the coordinates of a given
         starfish in the DataFrame so that
         it matches with Yolo_v5 pipeline
-        
+
         Arguments:
             -list_dict: List[dict]: The dictionnary
             in which coordianates are stored
@@ -53,37 +62,45 @@ class preprocessing_yolo:
             after it was properly converted
         """
 
-        image_id=list_dict[-1].split("-")
-        image_path=os.path.join("train_images", "video_"+image_id[0], image_id[1]+".jpg")
+        image_id = list_dict[-1].split("-")
+        image_path = os.path.join(
+            "train_images", "video_" + image_id[0], image_id[1] + ".jpg"
+        )
 
         # Transform the bbox co-ordinates as per the format required by YOLO v5
 
-        if len(list_dict)==1:
+        if len(list_dict) == 1:
             return [image_path]
 
         list_dict.remove(list_dict[-1])
 
         for i, dict_coordinates in enumerate(list_dict):
-            dict_coordinates["x"] += dict_coordinates["width"]/2
-            dict_coordinates["y"] += dict_coordinates["height"]/2
+            dict_coordinates["x"] += dict_coordinates["width"] / 2
+            dict_coordinates["y"] += dict_coordinates["height"] / 2
             dict_coordinates["x"] /= image_width
             dict_coordinates["y"] /= image_height
             dict_coordinates["width"] /= image_width
             dict_coordinates["height"] /= image_height
-            dict_coordinates={**{"class": 0}, **dict_coordinates}
-            list_dict[i]="{} {:.3f} {:.3f} {:.3f} {:.3f}".format(0, dict_coordinates["x"], dict_coordinates["y"], dict_coordinates["width"], dict_coordinates["height"])
-            
+            dict_coordinates = {**{"class": 0}, **dict_coordinates}
+            list_dict[i] = "{} {:.3f} {:.3f} {:.3f} {:.3f}".format(
+                0,
+                dict_coordinates["x"],
+                dict_coordinates["y"],
+                dict_coordinates["width"],
+                dict_coordinates["height"],
+            )
+
         list_dict.append(image_path)
 
         return list_dict
 
-    def full_conversion(self)->None:
+    def full_conversion(self) -> None:
         """
         The goal of this function
         is to convert the coordinates
         in the DataFrame so that they
         match the Yolo algorithm requirements
-        
+
         Arguments:
             -None
         Returns:
@@ -92,43 +109,62 @@ class preprocessing_yolo:
 
         logging.info("Conveting annotations in yolo format...")
 
-        self.df["annotations"]=self.df["annotations"].progress_apply(lambda x: self.convert_coordinates(x))
-    
-    def saving_result(self)->None:
+        self.df["annotations"] = self.df["annotations"].progress_apply(
+            lambda x: self.convert_coordinates(x)
+        )
+
+    def saving_result(self) -> None:
         """
         The goal of this function
         is saving the results under
         txt files readable by the Yolo
         model
-        
+
         Arguments:
             -None
         Returns:
             -None
         """
-        
+
         logging.info("Saving results under Yolo format...")
-        
+
         for elements in self.df["annotations"]:
-            path_save=elements[-1].replace(".jpg",".txt")
+            path_save = elements[-1].replace(".jpg", ".txt")
             elements.pop(-1)
 
             if os.path.exists(path_save):
                 continue
-            print("\n".join(elements), file= open(path_save, "w"))
+            print("\n".join(elements), file=open(path_save, "w"))
 
-def clean_all_files()->None:
+
+class preprocessing_faster_rcnn:
     """
-    The goal of this funcion 
-    is to remove all txt annotation
-    files
-    
+    The goal of this class is
+    to preprocess data for the
+    implementation of the faster
+    rcnn method
+
     Arguments:
         -None
     Returns:
         -None
     """
-    to_delete=glob.glob("train_images/*/*.txt")
+
+    def __init__(self) -> None:
+        pass
+
+
+def clean_all_files() -> None:
+    """
+    The goal of this funcion
+    is to remove all txt annotation
+    files
+
+    Arguments:
+        -None
+    Returns:
+        -None
+    """
+    to_delete = glob.glob("train_images/*/*.txt")
     for file_path in to_delete:
         os.remove(file_path)
-    
