@@ -21,6 +21,7 @@ main_params = load_conf("configs/main.yml", include=True)
 main_params = clean_params(main_params)
 image_width = main_params["width"]
 image_height = main_params["height"]
+faster_cnn_model_path = main_params["faster_cnn_model_path"]
 
 
 class preprocessing_yolo:
@@ -169,6 +170,42 @@ class preprocessing_faster_rcnn:
         Returns:
             -None
         """
+
+        self.df["image_path"] = self.df["image_id"].apply(
+            lambda x: "train_images/video_" + x[0] + "/" + x[-1] + ".jpg"
+        )
+        self.df = self.df[
+            self.df["image_path"].apply(lambda path: os.path.exists(path))
+        ]
+        self.df["annotations"] = self.df["annotations"].apply(
+            lambda x: ast.literal_eval(x)
+        )
+        self.df = self.df[self.df["annotations"].apply(lambda x: len(x)) > 0]
+        self.df = self.df.explode(column="annotations")
+        self.df = self.df[["annotations", "image_path"]]
+        self.df["class_name"] = "starfish"
+        self.df["x1"], self.df["y1"], self.df["x2"], self.df["y2"] = (
+            self.df["annotations"],
+            self.df["annotations"],
+            self.df["annotations"],
+            self.df["annotations"],
+        )
+
+        self.df.drop("annotations", axis=1, inplace=True)
+        self.df["x1"] = self.df["x1"].apply(
+            lambda dict_coordinates: dict_coordinates["x"]
+        )
+        self.df["y1"] = self.df["y1"].apply(
+            lambda dict_coordinates: dict_coordinates["y"]
+        )
+        self.df["x2"] = self.df["x2"].apply(
+            lambda dict_coordinates: dict_coordinates["x"] + dict_coordinates["width"]
+        )
+        self.df["y2"] = self.df["y2"].apply(
+            lambda dict_coordinates: dict_coordinates["y"] + dict_coordinates["height"]
+        )
+        self.df = self.df[["image_path", "x1", "y1", "x2", "y2", "class_name"]]
+        self.df.to_csv(os.path.join(faster_cnn_model_path, "annotate.txt"), index=False)
 
 
 def clean_all_files() -> None:
