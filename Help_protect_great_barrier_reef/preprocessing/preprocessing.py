@@ -3,6 +3,7 @@ import ast
 import os
 import logging
 import glob
+import shutil
 from typing import List
 from PIL import Image
 from Help_protect_great_barrier_reef.configs.confs import (
@@ -172,7 +173,7 @@ class preprocessing_faster_rcnn:
         """
 
         self.df["image_path"] = self.df["image_id"].apply(
-            lambda x: "train_images/video_" + x[0] + "/" + x[-1] + ".jpg"
+            lambda x: "train_images/video_" + x[0] + "/" + x.split("-")[-1] + ".jpg"
         )
         self.df = self.df[
             self.df["image_path"].apply(lambda path: os.path.exists(path))
@@ -206,6 +207,40 @@ class preprocessing_faster_rcnn:
         )
         self.df = self.df[["image_path", "x1", "y1", "x2", "y2", "class_name"]]
         self.df.to_csv(os.path.join(faster_cnn_model_path, "annotate.txt"), index=False)
+
+    def transfer_image(self)->None:
+        """
+        The goal of this function
+        is to transfer all appropriate
+        images to the faster cnn model
+        to be able to launch the training
+        
+        Arguments:
+            -None
+        Returns:
+            -None
+        """
+
+        annotation_path=os.path.join(faster_cnn_model_path, "annotate.txt")
+        if not os.path.exists(annotation_path):
+            raise ValueError("The annotation file was not found ! If you haven't already,\
+                             run the dataframe preprocessing method first.")
+
+        if not os.path.exists(os.path.join(faster_cnn_model_path,"train_images")):
+            os.makedirs(os.path.join(faster_cnn_model_path,"train_images"))
+            os.makedirs(os.path.join(faster_cnn_model_path,"train_images","video_0"))
+            os.makedirs(os.path.join(faster_cnn_model_path,"train_images","video_1"))
+            os.makedirs(os.path.join(faster_cnn_model_path,"train_images","video_2"))
+            
+            with open(annotation_path, 'r') as f:
+                for line in tqdm(f):
+                    line_split = line.strip().split(',')
+                    filename = line_split[0]
+
+                    if filename=="image_path":
+                        continue
+                    shutil.copy(filename,os.path.join(faster_cnn_model_path,filename))
+
 
 
 def clean_all_files() -> None:
