@@ -4,18 +4,20 @@ jobs:
   build:
     working_directory: ~/circleci-python
     docker:
-      - image: "circleci/python:3.8"
+      - image: "circleci/python:3.9"
     steps:
       - checkout
       - run:
           command: |
+            pip install pipreqs
+            python -m  pipreqs.pipreqs . --force
             pip install --upgrade pip
             pip install -r requirements.txt
             python test_unittest.py
   test:
     working_directory: ~/circleci-python
     docker:
-      - image: "circleci/python:3.8"
+      - image: "circleci/python:3.9"
     steps:
       - checkout
       - run:
