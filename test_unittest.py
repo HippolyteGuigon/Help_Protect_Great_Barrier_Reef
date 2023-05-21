@@ -20,7 +20,8 @@ formatter = logging.Formatter("%(asctime)s | %(levelname)s | %(message)s")
 
 main_params = load_conf("configs/main.yml", include=True)
 main_params = clean_params(main_params)
-nb_image_to_generate=main_params["nb_image_to_generate"]
+nb_image_to_generate = main_params["nb_image_to_generate"]
+
 
 def copy_yolo_file() -> None:
     if not os.path.exists("Help_protect_great_barrier_reef/model/yolov5_ws"):
@@ -118,28 +119,29 @@ class Test(unittest.TestCase):
         except:
             raise ValueError("main file pipeline failed")
 
-    def test_data_augmentation(self)->None:
+    def test_data_augmentation(self) -> None:
         """
         The goal of this function
         is to test wheter the main file
         works when tried with data augmentation
-        
+
         Arguments:
             -None
-        Returns:    
+        Returns:
             -None
         """
 
-        image_before=glob.glob("train_images/*/*.jpg")
+        image_before = glob.glob("train_images/*/*.jpg")
 
         try:
             os.system("python3 main.py --data_augmentation yes")
         except:
             raise ValueError("main file pipeline failed")
-        
-        #image_after=glob.glob("train_images/*/*.jpg")
-        #self.assertTrue(len(glob.glob("*.h5"))>0)
-        #self.assertTrue(len(image_after)==len(image_before)+nb_image_to_generate)
+
+        image_after = glob.glob("train_images/*/*.jpg")
+        self.assertTrue(len(glob.glob("*.h5")) > 0)
+        self.assertTrue(len(image_after) == len(image_before) + nb_image_to_generate)
+
 
 if __name__ == "__main__":
     main()

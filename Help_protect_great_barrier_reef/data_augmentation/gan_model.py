@@ -33,9 +33,10 @@ main()
 
 main_params = load_conf("configs/main.yml", include=True)
 main_params = clean_params(main_params)
-nb_epochs=main_params["nb_epochs"]
-batch_size=main_params["batch_size"]
-nb_image_to_generate=main_params["nb_image_to_generate"]
+nb_epochs = main_params["nb_epochs"]
+batch_size = main_params["batch_size"]
+nb_image_to_generate = main_params["nb_image_to_generate"]
+
 
 class GAN_model:
     """
@@ -70,7 +71,7 @@ class GAN_model:
         Returns:
             -None
         """
-
+        logging.info("Image conversion for GAN model has begun")
         if only_starfish:
             self.df["image_path"] = self.df["image_id"].apply(
                 lambda x: "train_images/video_" + x[0] + "/" + x.split("-")[-1] + ".jpg"
@@ -191,8 +192,16 @@ class GAN_model:
         return model
 
     def train(
-        self, g_model, d_model, gan_model, X_train, latent_dim, n_epochs=nb_epochs, n_batch=64
+        self,
+        g_model,
+        d_model,
+        gan_model,
+        X_train,
+        latent_dim,
+        n_epochs=nb_epochs,
+        n_batch=64,
     ):
+        logging.info("Fitting of the GAN model has begun")
         bat_per_epo = int(X_train.shape[0] / n_batch)
         n_steps = bat_per_epo * n_epochs
         for i in range(n_steps):
@@ -209,6 +218,7 @@ class GAN_model:
             )
             if (i + 1) % (bat_per_epo * 1) == 0:
                 self.summarize_performance(i, g_model, latent_dim)
+        logging.warning("Fitting of the GAN model has ended !")
 
     def save_plot(self, examples, n_examples):
         for i in range(n_examples):
@@ -234,10 +244,3 @@ if __name__ == "__main__":
         n_epochs=nb_epochs,
         n_batch=batch_size,
     )
-    last_model = glob.glob("*.h5")[0]
-    model = load_model(last_model)
-    n_examples = nb_image_to_generate
-    latent_points = test.generate_latent_points(latent_dim, n_examples)
-    X = model.predict(latent_points)
-    X = (X + 1) / 2
-    test.save_plot(X, n_examples)
