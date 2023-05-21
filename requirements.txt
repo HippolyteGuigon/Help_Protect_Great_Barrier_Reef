@@ -5,6 +5,7 @@ coremltools==6.3.0
 Flask==2.3.2
 GitPython==3.1.31
 ipython==8.13.2
+keras==2.9
 matplotlib==3.7.1
 mss==9.0.1
 numpy==1.23.5

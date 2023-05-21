@@ -3,6 +3,7 @@ import argparse
 import logging
 import torch
 import glob
+import numpy as np
 from Help_protect_great_barrier_reef.model.yolo_v5 import (
     yolo_model,
     get_last_model_path,
@@ -61,16 +62,16 @@ if args.model == "Yolo":
 
 if args.data_augmentation == "yes":
     logging.info("You have chosen the data augmentation with a GAN")
-    gan_model=GAN_model()
-    gan_model.convert_images(only_starfish=False)
-    discriminator = gan_model.define_discriminator()
-    generator = gan_model.define_generator(latent_dim)
-    gan_model = gan_model.define_gan(generator, discriminator)
-    gan_model.train(
+    gan=GAN_model()
+    gan.convert_images(only_starfish=False)
+    discriminator = gan.define_discriminator()
+    generator = gan.define_generator(latent_dim)
+    gan_model = gan.define_gan(generator, discriminator)
+    gan.train(
         generator,
         discriminator,
         gan_model,
-        gan_model.X_train,
+        gan.X_train,
         latent_dim,
         n_epochs=nb_epochs,
         n_batch=batch_size,
@@ -78,14 +79,14 @@ if args.data_augmentation == "yes":
     last_model = glob.glob("*.h5")[0]
     model = load_model(last_model)
     n_examples = 9
-    latent_points = gan_model.generate_latent_points(latent_dim, n_examples)
-    X = model.predict(latent_points)
+    latent_points = gan.generate_latent_points(latent_dim, n_examples)
+    X = model.predict(latent_points).astype(np.uint8)
 
     for image_number, image in enumerate(X):
         image_array=Image.fromarray(image)
         image_path=os.path.join(
             "train_images/video_0",
-            str(image_number*100000)+".jpg")
+            str((image_number+1)*100000)+".jpg")
         image_array.save(image_path)
         file = open(image_path.replace(".jpg",".txt"), 'w')
         file.close()
