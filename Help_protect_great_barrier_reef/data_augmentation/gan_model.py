@@ -17,15 +17,34 @@ from keras.layers import LeakyReLU, Dropout, Embedding
 from keras.layers import BatchNormalization, Activation
 from keras import initializers
 from matplotlib import pyplot
+from Help_protect_great_barrier_reef.configs.confs import (
+    load_conf,
+    clean_params,
+    Loader,
+)
+
+main_params = load_conf("configs/main.yml", include=True)
+main_params = clean_params(main_params)
 
 
 class GAN_model:
+    """
+    The goal of this class is the
+    implementation of a generative
+    adversarial network (GAN) to perform
+    data augmentation
+
+    Arguments:
+        -None
+    Returns:
+        -None
+    """
+
     def __init__(self) -> None:
         self.X_train = []
         self.df = pd.read_csv("train.csv")
 
-    def convert_images(self, only_starfish: bool = True,
-                    reload: bool = False) -> None:
+    def convert_images(self, only_starfish: bool = True, reload: bool = False) -> None:
         """
         The goal of this function
         is converting all images to
@@ -70,6 +89,25 @@ class GAN_model:
             self.X_train = np.load("X_train.npy")
 
     def generate_latent_points(self, latent_dim, n_samples):
+        """
+        The goal of this function
+        is to generate a certain
+        number of random points that
+        will then be used to generate
+        fake images
+
+        Arguments:
+            -latent_dim: int: The dimensions
+            in which the final images will
+            be
+            -n_samples: int: The number of fake
+            images to generate
+
+        Returns:
+            -z_input: np.array: The random points
+            generated in the correct dimensions
+        """
+
         x_input = randn(latent_dim * n_samples)
         z_input = x_input.reshape(n_samples, latent_dim)
         return z_input
@@ -93,8 +131,8 @@ class GAN_model:
             pyplot.subplot(10, 10, 1 + i)
             pyplot.axis("off")
             pyplot.imshow(X[i, :, :, 0], cmap="gray_r")
-        last_model=glob.glob("*.h5")
-        if len(last_model)>0:
+        last_model = glob.glob("*.h5")
+        if len(last_model) > 0:
             os.remove(last_model[0])
         filename2 = "model_%04d.h5" % (step + 1)
         g_model.save(filename2)
@@ -128,7 +166,7 @@ class GAN_model:
         gen = LeakyReLU(alpha=0.2)(gen)
         gen = Dense(1024, kernel_initializer=init)(gen)
         gen = LeakyReLU(alpha=0.2)(gen)
-        gen = Dense(200 *200 * 3, kernel_initializer=init)(gen)
+        gen = Dense(200 * 200 * 3, kernel_initializer=init)(gen)
         out_layer = Activation("tanh")(gen)
         out_layer = Reshape((200, 200, 3))(gen)
         model = Model(in_lat, out_layer)
@@ -165,9 +203,10 @@ class GAN_model:
     def save_plot(self, examples, n_examples):
         for i in range(n_examples):
             pyplot.subplot(sqrt(n_examples), sqrt(n_examples), 1 + i)
-            pyplot.axis('off')
-            pyplot.imshow(examples[i, :, :, 0], cmap='gray_r')
+            pyplot.axis("off")
+            pyplot.imshow(examples[i, :, :, 0], cmap="gray_r")
         pyplot.show()
+
 
 if __name__ == "__main__":
     test = GAN_model()
@@ -185,11 +224,11 @@ if __name__ == "__main__":
         n_epochs=50,
         n_batch=1000,
     )
-    last_model=glob.glob("*.h5")[0]
+    last_model = glob.glob("*.h5")[0]
     model = load_model(last_model)
-    latent_dim=100
-    n_examples=9
-    latent_points=test.generate_latent_points(latent_dim,n_examples)
-    X=model.predict(latent_points)
-    X=(X+1)/2
+    latent_dim = 100
+    n_examples = 9
+    latent_points = test.generate_latent_points(latent_dim, n_examples)
+    X = model.predict(latent_points)
+    X = (X + 1) / 2
     test.save_plot(X, n_examples)

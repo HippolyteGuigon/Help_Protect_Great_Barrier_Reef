@@ -1,3 +1,4 @@
 image_properties: !include image_properties.yml
 model: !include model.yml
+gan_model: !include gan_model.yml
 model_chosen: yolo_v5

@@ -19,7 +19,9 @@ all_fitted_model_path = main_params["all_fitted_model_path"]
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument("--model", type=str, default="Yolo", help="Model chosen")
+parser.add_argument(
+    "--model", type=str, default="Yolo", help="Model chosen for the training"
+)
 parser.add_argument(
     "--fitting",
     type=str,
@@ -27,6 +29,13 @@ parser.add_argument(
     default="fit",
     help="Wheter the model should\
                      be trained or loaded",
+)
+parser.add_argument(
+    "--data_augmentation",
+    type=str,
+    default="no",
+    choices=["yes", "no"],
+    help="Whether or not data augmentation with a GAN should be used",
 )
 parser.add_argument(
     "--train_size",
