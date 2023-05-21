@@ -86,7 +86,7 @@ if args.data_augmentation == "yes":
         image_array=Image.fromarray(image)
         image_path=os.path.join(
             "train_images/video_0",
-            str(image_number*100000)+".jpg")
+            str((image_number+1)*100000)+".jpg")
         image_array.save(image_path)
         file = open(image_path.replace(".jpg",".txt"), 'w')
         file.close()
