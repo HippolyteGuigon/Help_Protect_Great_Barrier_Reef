@@ -28,6 +28,5 @@ Image of startfish localised on the great barrier
 
 ## How to use ? 
 
-To launch the pipeline, use the following command: ```python main.py --model Yolo --fitting fit --train_size size_of_your_choice```
+To launch the pipeline, use the following command: ```python main.py``` and adapt argparse parameters according to your needs (You'll find documentation inside)
 
-Fitting of the model will then begin 
