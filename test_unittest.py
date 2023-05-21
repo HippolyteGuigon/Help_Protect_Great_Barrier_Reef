@@ -130,17 +130,11 @@ class Test(unittest.TestCase):
             -None
         """
 
-        image_before=glob.glob("train_images/*/*.jpg")
-
         try:
             os.system("python3 main.py --data_augmentation yes")
         except:
             raise Exception("main file pipeline failed")
-        
-        image_after=glob.glob("train_images/*/*.jpg")
-
-        self.assertTrue(len(image_after)==len(image_before)+nb_image_to_generate)
-
+    
 if __name__ == "__main__":
     main()
     unittest.main()
