@@ -34,6 +34,5 @@ def main() -> None:
         logger.addHandler(file_handler)
         logger.addHandler(stdout_handler)
         logger.propagate = False
-
-    else:
         setattr(main, "called")
+    
