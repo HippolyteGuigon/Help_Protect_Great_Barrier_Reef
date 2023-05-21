@@ -110,7 +110,24 @@ class Test(unittest.TestCase):
         except:
             raise Exception("main file pipeline failed")
 
+    def test_data_augmentation(self)->None:
+        """
+        The goal of this function
+        is to test wheter the main file
+        works when tried with data augmentation
+        
+        Arguments:
+            -None
+        Returns:    
+            -None
+        """
 
+
+        try:
+            os.system("python3 main.py --data_augmentation yes")
+        except:
+            raise Exception("main file pipeline failed")
+        
 if __name__ == "__main__":
     main()
     unittest.main()
