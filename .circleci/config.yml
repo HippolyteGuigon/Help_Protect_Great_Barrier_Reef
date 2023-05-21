@@ -12,6 +12,7 @@ jobs:
             pip install pipreqs
             pip install -U scikit-learn scipy matplotlib
             pip install torch
+            pip install tensorflow
             python -m  pipreqs.pipreqs . --force
             pip install --upgrade pip
             pip install -r requirements.txt
@@ -27,6 +28,7 @@ jobs:
             pip install pipreqs
             pip install -U scikit-learn scipy matplotlib
             pip install torch
+            pip install tensorflow
             python -m  pipreqs.pipreqs . --force
             pip install --upgrade pip
             pip install -r requirements.txt
