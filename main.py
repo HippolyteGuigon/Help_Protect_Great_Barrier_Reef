@@ -60,6 +60,7 @@ if args.model == "Yolo":
     model = yolo_model()
 
 if args.data_augmentation == "yes":
+    logging.info("You have chosen the data augmentation with a GAN")
     gan_model=GAN_model()
     gan_model.convert_images(only_starfish=False)
     discriminator = gan_model.define_discriminator()
