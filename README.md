@@ -28,5 +28,5 @@ Image of startfish localised on the great barrier
 
 ## How to use ? 
 
-To launch the pipeline, use the following command: ```python main.py``` and adapt argparse parameters according to your needs (You'll find documentation inside)
+To launch the pipeline, use the following command: ```python main.py``` and adapt argparse parameters according to your needs (You'll find documentation inside ```main.py``` file)
 
