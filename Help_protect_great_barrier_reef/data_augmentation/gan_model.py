@@ -4,6 +4,7 @@ import os
 import pandas as pd
 import ast
 from tqdm import tqdm
+from logging import logging
 from PIL import Image
 from math import sqrt
 from keras.optimizers import Adam, SGD, Adamax
@@ -22,6 +23,13 @@ from Help_protect_great_barrier_reef.configs.confs import (
     clean_params,
     Loader,
 )
+from Help_protect_great_barrier_reef.logs.logs import main
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+formatter = logging.Formatter("%(asctime)s | %(levelname)s | %(message)s")
+
+main()
 
 main_params = load_conf("configs/main.yml", include=True)
 main_params = clean_params(main_params)
