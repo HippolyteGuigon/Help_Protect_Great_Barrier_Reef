@@ -139,8 +139,8 @@ class Test(unittest.TestCase):
         
         image_after=glob.glob("train_images/*/.jpg")
 
-        self.assertTrue(image_after==image_before+nb_image_to_generate)
-        
+        self.assertTrue(len(image_after)==len(image_before)+nb_image_to_generate)
+
 if __name__ == "__main__":
     main()
     unittest.main()
