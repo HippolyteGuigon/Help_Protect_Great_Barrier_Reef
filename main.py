@@ -23,6 +23,7 @@ all_fitted_model_path = main_params["all_fitted_model_path"]
 latent_dim=main_params["latent_dim"]
 nb_epochs=main_params["nb_epochs"]
 batch_size=main_params["batch_size"]
+nb_image_to_generate=main_params["nb_image_to_generate"]
 
 parser = argparse.ArgumentParser()
 

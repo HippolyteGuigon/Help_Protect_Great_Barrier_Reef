@@ -27,6 +27,7 @@ main_params = load_conf("configs/main.yml", include=True)
 main_params = clean_params(main_params)
 nb_epochs=main_params["nb_epochs"]
 batch_size=main_params["batch_size"]
+nb_image_to_generate=main_params["nb_image_to_generate"]
 
 class GAN_model:
     """
@@ -227,7 +228,7 @@ if __name__ == "__main__":
     )
     last_model = glob.glob("*.h5")[0]
     model = load_model(last_model)
-    n_examples = 9
+    n_examples = nb_image_to_generate
     latent_points = test.generate_latent_points(latent_dim, n_examples)
     X = model.predict(latent_points)
     X = (X + 1) / 2
