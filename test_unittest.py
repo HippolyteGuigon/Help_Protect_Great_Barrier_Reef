@@ -131,6 +131,7 @@ class Test(unittest.TestCase):
             -None
         """
 
+        logging.warning("GAN unittest test parsed")
         image_before = glob.glob("train_images/*/*.jpg")
 
         try:
