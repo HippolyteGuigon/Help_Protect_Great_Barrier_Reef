@@ -8,11 +8,19 @@ from Help_protect_great_barrier_reef.model.yolo_v5 import (
     yolo_model,
     get_last_model_path,
 )
+from Help_protect_great_barrier_reef.configs.confs import (
+    load_conf,
+    clean_params,
+    Loader,
+)
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 formatter = logging.Formatter("%(asctime)s | %(levelname)s | %(message)s")
 
+main_params = load_conf("configs/main.yml", include=True)
+main_params = clean_params(main_params)
+nb_image_to_generate=main_params["nb_image_to_generate"]
 
 def copy_yolo_file() -> None:
     if not os.path.exists("Help_protect_great_barrier_reef/model/yolov5_ws"):
@@ -122,11 +130,16 @@ class Test(unittest.TestCase):
             -None
         """
 
+        image_before=glob.glob("train_images/*/.jpg")
 
         try:
             os.system("python3 main.py --data_augmentation yes")
         except:
             raise Exception("main file pipeline failed")
+        
+        image_after=glob.glob("train_images/*/.jpg")
+
+        self.assertTrue(image_after==image_before+nb_image_to_generate)
         
 if __name__ == "__main__":
     main()
