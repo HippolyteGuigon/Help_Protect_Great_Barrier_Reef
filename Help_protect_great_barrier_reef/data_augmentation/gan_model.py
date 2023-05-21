@@ -30,7 +30,6 @@ logger.setLevel(logging.INFO)
 formatter = logging.Formatter("%(asctime)s | %(levelname)s | %(message)s")
 
 main()
-logging.info("Logs defined for GAN model")
 
 main_params = load_conf("configs/main.yml", include=True)
 main_params = clean_params(main_params)
@@ -217,8 +216,7 @@ class GAN_model:
                 ">%d, dr[%.3f,%.3f], df[%.3f,%.3f], g[%.3f,%.3f]"
                 % (i + 1, d_loss_r, d_acc_r, d_loss_f, d_acc_f, g_loss, g_acc)
             )
-            if (i + 1) % (bat_per_epo * 1) == 0:
-                self.summarize_performance(i, g_model, latent_dim)
+            self.summarize_performance(i, g_model, latent_dim)
         logging.warning("Fitting of the GAN model has ended !")
 
     def save_plot(self, examples, n_examples):
