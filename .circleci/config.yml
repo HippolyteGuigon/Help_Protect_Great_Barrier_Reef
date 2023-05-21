@@ -10,6 +10,8 @@ jobs:
       - run:
           command: |
             pip install pipreqs
+            pip install -U scikit-learn scipy matplotlib
+            pip install torch
             python -m  pipreqs.pipreqs . --force
             pip install --upgrade pip
             pip install -r requirements.txt
@@ -23,6 +25,8 @@ jobs:
       - run:
           command: |
             pip install pipreqs
+            pip install -U scikit-learn scipy matplotlib
+            pip install torch
             python -m  pipreqs.pipreqs . --force
             pip install --upgrade pip
             pip install -r requirements.txt
