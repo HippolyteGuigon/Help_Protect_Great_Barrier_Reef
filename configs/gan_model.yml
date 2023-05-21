@@ -1,2 +1,5 @@
 nb_epochs: 1
 batch_size: 100
+
+latent_dim: 100
+nb_image_to_generate: 10

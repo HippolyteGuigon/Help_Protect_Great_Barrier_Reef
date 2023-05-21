@@ -25,7 +25,8 @@ from Help_protect_great_barrier_reef.configs.confs import (
 
 main_params = load_conf("configs/main.yml", include=True)
 main_params = clean_params(main_params)
-
+nb_epochs=main_params["nb_epochs"]
+batch_size=main_params["batch_size"]
 
 class GAN_model:
     """
@@ -181,7 +182,7 @@ class GAN_model:
         return model
 
     def train(
-        self, g_model, d_model, gan_model, X_train, latent_dim, n_epochs=10, n_batch=64
+        self, g_model, d_model, gan_model, X_train, latent_dim, n_epochs=nb_epochs, n_batch=64
     ):
         bat_per_epo = int(X_train.shape[0] / n_batch)
         n_steps = bat_per_epo * n_epochs
@@ -211,9 +212,9 @@ class GAN_model:
 if __name__ == "__main__":
     test = GAN_model()
     test.convert_images(only_starfish=False)
-    latent_dim = 100
     discriminator = test.define_discriminator()
-    generator = test.define_generator(100)
+    latent_dim = 100
+    generator = test.define_generator(latent_dim)
     gan_model = test.define_gan(generator, discriminator)
     test.train(
         generator,
@@ -221,12 +222,11 @@ if __name__ == "__main__":
         gan_model,
         test.X_train,
         latent_dim,
-        n_epochs=50,
-        n_batch=1000,
+        n_epochs=nb_epochs,
+        n_batch=batch_size,
     )
     last_model = glob.glob("*.h5")[0]
     model = load_model(last_model)
-    latent_dim = 100
     n_examples = 9
     latent_points = test.generate_latent_points(latent_dim, n_examples)
     X = model.predict(latent_points)
