@@ -114,6 +114,7 @@ class Test(unittest.TestCase):
         Returns:
             -None
         """
+        copy_yolo_file()
         try:
             os.system("python3 main.py")
         except:
@@ -130,6 +131,8 @@ class Test(unittest.TestCase):
         Returns:
             -None
         """
+
+        copy_yolo_file()
         image_before = glob.glob("train_images/*/*.jpg")
         txt_file_before = glob.glob("train_images/*/*.txt")
 
