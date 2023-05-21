@@ -116,7 +116,7 @@ class Test(unittest.TestCase):
         try:
             os.system("python3 main.py")
         except:
-            raise Exception("main file pipeline failed")
+            raise ValueError("main file pipeline failed")
 
     def test_data_augmentation(self)->None:
         """
@@ -135,10 +135,10 @@ class Test(unittest.TestCase):
         try:
             os.system("python3 main.py --data_augmentation yes")
         except:
-            raise Exception("main file pipeline failed")
+            raise ValueError("main file pipeline failed")
         
         image_after=glob.glob("train_images/*/*.jpg")
-        self.assertTrue(len(glob.glob(".h5"))>0)
+        self.assertTrue(len(glob.glob("*.h5"))>0)
         #self.assertTrue(len(image_after)==len(image_before)+nb_image_to_generate)
 
 if __name__ == "__main__":
