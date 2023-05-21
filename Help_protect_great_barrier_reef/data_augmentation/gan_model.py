@@ -3,8 +3,8 @@ import glob
 import os
 import pandas as pd
 import ast
+import logging
 from tqdm import tqdm
-from logging import logging
 from PIL import Image
 from math import sqrt
 from keras.optimizers import Adam, SGD, Adamax

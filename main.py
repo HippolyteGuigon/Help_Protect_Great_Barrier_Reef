@@ -61,16 +61,16 @@ if args.model == "Yolo":
 
 if args.data_augmentation == "yes":
     logging.info("You have chosen the data augmentation with a GAN")
-    gan_model=GAN_model()
-    gan_model.convert_images(only_starfish=False)
-    discriminator = gan_model.define_discriminator()
-    generator = gan_model.define_generator(latent_dim)
-    gan_model = gan_model.define_gan(generator, discriminator)
-    gan_model.train(
+    gan=GAN_model()
+    gan.convert_images(only_starfish=False)
+    discriminator = gan.define_discriminator()
+    generator = gan.define_generator(latent_dim)
+    gan_model = gan.define_gan(generator, discriminator)
+    gan.train(
         generator,
         discriminator,
         gan_model,
-        gan_model.X_train,
+        gan.X_train,
         latent_dim,
         n_epochs=nb_epochs,
         n_batch=batch_size,
