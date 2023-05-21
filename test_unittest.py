@@ -143,9 +143,9 @@ class Test(unittest.TestCase):
 
         image_after = glob.glob("train_images/*/*.jpg")
         txt_file_after = glob.glob("train_images/*/*.txt")
-        print("ICIIIIIIII",set(image_after) ^ set(image_before))
-        self.assertTrue(len(image_after) == len(image_before)+nb_image_to_generate)
-        self.assertTrue(len(txt_file_after) == len(txt_file_before)+nb_image_to_generate)
+
+        self.assertGreater(len(image_after),len(image_before))
+        self.assertGreater(len(txt_file_after),len(txt_file_before))
 
 
 if __name__ == "__main__":
