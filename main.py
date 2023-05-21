@@ -3,6 +3,7 @@ import argparse
 import logging
 import torch
 import glob
+import numpy as np
 from Help_protect_great_barrier_reef.model.yolo_v5 import (
     yolo_model,
     get_last_model_path,
@@ -79,7 +80,7 @@ if args.data_augmentation == "yes":
     model = load_model(last_model)
     n_examples = 9
     latent_points = gan.generate_latent_points(latent_dim, n_examples)
-    X = model.predict(latent_points)
+    X = model.predict(latent_points).astype(np.uint8)
 
     for image_number, image in enumerate(X):
         image_array=Image.fromarray(image)
