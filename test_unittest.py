@@ -134,7 +134,7 @@ class Test(unittest.TestCase):
         image_before = glob.glob("train_images/*/*.jpg")
 
         try:
-            os.system("python3 main.py --data_augmentation yes")
+            os.system("python main.py --data_augmentation yes")
         except:
             raise ValueError("main file pipeline failed")
 

@@ -30,6 +30,7 @@ logger.setLevel(logging.INFO)
 formatter = logging.Formatter("%(asctime)s | %(levelname)s | %(message)s")
 
 main()
+logging.info("Logs defined for GAN model")
 
 main_params = load_conf("configs/main.yml", include=True)
 main_params = clean_params(main_params)
