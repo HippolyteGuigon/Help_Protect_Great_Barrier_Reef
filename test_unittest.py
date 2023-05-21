@@ -118,7 +118,7 @@ class Test(unittest.TestCase):
             os.system("python3 main.py")
         except:
             raise ValueError("main file pipeline failed")
-
+    
     def test_data_augmentation(self) -> None:
         """
         The goal of this function
@@ -130,9 +130,8 @@ class Test(unittest.TestCase):
         Returns:
             -None
         """
-
-        logging.warning("GAN unittest test parsed")
         image_before = glob.glob("train_images/*/*.jpg")
+        txt_file_before = glob.glob("train_images/*/*.txt")
 
         try:
             os.system("python main.py --data_augmentation yes")
@@ -140,8 +139,10 @@ class Test(unittest.TestCase):
             raise ValueError("main file pipeline failed")
 
         image_after = glob.glob("train_images/*/*.jpg")
-        self.assertTrue(len(glob.glob("*.h5")) > 0)
+        txt_file_after = glob.glob("train_images/*/*.txt")
+
         self.assertTrue(len(image_after) == len(image_before) + nb_image_to_generate)
+        self.assertTrue(len(txt_file_after) == len(txt_file_before) + nb_image_to_generate)
 
 
 if __name__ == "__main__":

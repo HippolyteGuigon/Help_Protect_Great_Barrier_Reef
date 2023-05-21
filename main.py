@@ -78,7 +78,7 @@ if args.data_augmentation == "yes":
     last_model = glob.glob("*.h5")[0]
     model = load_model(last_model)
     n_examples = 9
-    latent_points = gan_model.generate_latent_points(latent_dim, n_examples)
+    latent_points = gan.generate_latent_points(latent_dim, n_examples)
     X = model.predict(latent_points)
 
     for image_number, image in enumerate(X):
